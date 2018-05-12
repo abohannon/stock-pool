@@ -32,11 +32,11 @@ const StockList = () => (
       <thead>
         <TableHeader>
           <th>Symbol</th>
-          <th>Company</th>
-          <th>Last Price</th>
-          <th>Change</th>
-          <th>% Change</th>
-          <th>Market Cap</th>
+          <th>Open</th>
+          <th>High</th>
+          <th>Low</th>
+          <th>Close</th>
+          <th>Volume</th>
         </TableHeader>
       </thead>
       <tbody>
