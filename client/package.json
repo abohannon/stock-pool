@@ -2,6 +2,12 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "proxy": {
+    "/api/*": {
+      "target": "http://localhost:5000",
+      "secure": false
+    }
+  },
   "dependencies": {
     "normalize.css": "^8.0.0",
     "react": "^16.3.2",

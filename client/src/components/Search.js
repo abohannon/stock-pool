@@ -59,6 +59,7 @@ class Search extends Component {
 
   handleSubmit = () => {
     console.log('Submit');
+    this.props.fetchStockData(this.state.value);
   }
 
   render() {
