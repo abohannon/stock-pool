@@ -1,5 +1,4 @@
 const axios = require('axios');
-const util = require('util');
 
 const helloWorld = (req, res) => {
   res.send({
@@ -16,11 +15,9 @@ const fetchMarketData = async (req, res) => {
 
   try {
     const response = await axios.get(endpoint);
-    res.json(response.data);
-    console.log('success');
+    res.status(200).json(response.data);
   } catch (error) {
-    console.log('error');
-    if (error) throw error;
+    res.status(404).json({ error: 'error fetching data' });
   }
 };
 

@@ -7,14 +7,12 @@ const Wrapper = styled.div`
   margin-bottom: 1rem;
   background-color: white;
   height: 400px;
-  border-radius: 2 px;
+  border-radius: 2px;
   box-shadow: ${BOX_SHADOW};
 `;
 
 const Graph = () => (
-  <Wrapper>
-      Graph
-  </Wrapper>
+  <Wrapper />
 );
 
 export default Graph;

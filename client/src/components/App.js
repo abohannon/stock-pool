@@ -39,7 +39,7 @@ class App extends Component {
     this.setState({ currentStocks: newState });
   }
 
-  fetchStockData = (value) => {
+  fetchStockData = async (value) => {
     if (this.state.currentStocks.includes(value)) return;
 
     this.setState({ fetchingStockData: true });
@@ -58,24 +58,27 @@ class App extends Component {
       method: 'POST',
     };
 
-    fetch(endpoint, options)
-      .then(response => response.json())
-      .then((json) => {
-        this.updateCurrentStocks(value);
-        const newState = [...this.state.data, json];
-        this.setState({
-          data: newState,
-          fetchingStockData: false,
-          error: '',
-        });
-      })
-      .catch((error) => {
-        console.log('Error fetching stock data', error);
-        this.setState({
-          error,
-          fetchingStockData: false,
-        });
+    try {
+      const response = await fetch(endpoint, options);
+      if (response.status !== 200) throw new Error('Ticker not found');
+      const json = await response.json();
+
+      const newState = [...this.state.data, json];
+
+      this.setState({
+        data: newState,
+        fetchingStockData: false,
+        error: '',
       });
+
+      this.updateCurrentStocks(value);
+    } catch (error) {
+      console.log('Error fetching stock data', error);
+      this.setState({
+        error,
+        fetchingStockData: false,
+      });
+    }
   }
 
   render() {

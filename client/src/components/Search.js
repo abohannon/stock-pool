@@ -6,6 +6,8 @@ import {
   WHITE,
   BLUE,
   BLUE_DARK,
+  GREY_DARK,
+  GREY_EXTRA_LIGHT,
 } from '../constants/style';
 
 const Wrapper = styled.div`
@@ -25,6 +27,12 @@ const Input = styled.input`
   width: 100%;
   background: transparent;
   padding: 0 1rem;
+  font-weight: 700;
+  color: ${GREY_DARK};
+
+  &::placeholder {
+    color: ${GREY_EXTRA_LIGHT};
+  }
 `;
 
 const IconWrapper = styled.button`
