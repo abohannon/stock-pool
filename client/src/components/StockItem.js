@@ -4,7 +4,7 @@ import { BLUE, GREEN, RED, GREY, WHITE_ALT } from '../constants/style';
 
 const ItemWrapper = styled.tr`
   height: 3rem;
-  font-weight: bold;
+  font-weight: 600;
   color: ${GREY};
 
   &:hover {
@@ -28,16 +28,17 @@ const Close = styled.td`
 
 const StockItem = (props) => {
   const {
-    symbol, open, high, low, close, volume,
+    symbol, open, high, low, close, volume, marketCap,
   } = props;
   return (
     <ItemWrapper>
       <Symbol>{symbol}</Symbol>
-      <StyledTd>{open}</StyledTd>
-      <StyledTd>{high}</StyledTd>
-      <StyledTd>{low}</StyledTd>
-      <Close open={open}>{close}</Close>
+      <StyledTd>${open}</StyledTd>
+      <StyledTd>${high}</StyledTd>
+      <StyledTd>${low}</StyledTd>
+      <Close open={open}>${close}</Close>
       <StyledTd>{volume}</StyledTd>
+      <StyledTd>{marketCap}</StyledTd>
     </ItemWrapper>
   );
 };

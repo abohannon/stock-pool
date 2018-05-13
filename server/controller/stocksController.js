@@ -1,5 +1,5 @@
 const axios = require('axios');
-const keys = require('../config/keys');
+const util = require('util');
 
 const helloWorld = (req, res) => {
   res.send({
@@ -7,32 +7,21 @@ const helloWorld = (req, res) => {
   });
 };
 
-const fetchMarketData = (req, res) => {
-  console.log(req.body);
+const fetchMarketData = async (req, res) => {
   const {
-    timeSeries,
     symbol,
   } = req.body;
 
-  const endpoint = 'https://www.alphavantage.co/query';
+  const endpoint = `https://api.iextrading.com/1.0/stock/${symbol}/batch?types=quote,news,chart&range=1m`;
 
-  const config = {
-    params: {
-      function: timeSeries,
-      symbol,
-      apikey: keys.AA_API_KEY,
-    },
-  };
-
-  axios.get(endpoint, config)
-    .then(response => res.json({
-      message: 'success',
-      data: response.data,
-    }))
-    .catch(err => res.json({
-      message: 'failed to fetch market data',
-      error: err,
-    }));
+  try {
+    const response = await axios.get(endpoint);
+    res.json(response.data);
+    console.log('success');
+  } catch (error) {
+    console.log('error');
+    if (error) throw error;
+  }
 };
 
 module.exports = {

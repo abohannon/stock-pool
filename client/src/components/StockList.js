@@ -20,6 +20,7 @@ const Table = styled.table`
 
 const TableHeader = styled.tr`
   text-align: left;
+  font-weight: 600;
   border-bottom: 1px solid ${GREY_LIGHTEST};
   margin-bottom: .5rem;
   height: 3rem;
@@ -30,27 +31,29 @@ const StyledTh = styled.th`
   padding: .5rem;
 `;
 
-const StockItemProps = {
-  symbol: 'MSFT',
-  open: '$187.74',
-  high: '$190.37',
-  low: '187.65',
-  close: '$190.04',
-  volume: '28M',
+const renderStockItems = (props) => {
+  const { stockData } = props;
+
+  return stockData.map((stock, i) => {
+    const {
+      symbol, open, high, low, close, latestVolume, marketCap,
+    } = stock.quote;
+    return (
+      <StockItem
+        key={symbol}
+        symbol={symbol}
+        open={open}
+        high={high}
+        low={low}
+        close={close}
+        volume={latestVolume}
+        marketCap={marketCap}
+      />
+    );
+  });
 };
 
-const renderStockItems = () => {
-  let count = 6;
-  const items = [];
-
-  while (count > 0) {
-    items.push(<StockItem {...StockItemProps} />);
-    count--;
-  }
-  return items;
-};
-
-const StockList = () => (
+const StockList = props => (
   <Wrapper>
     <Table>
       <thead>
@@ -61,13 +64,15 @@ const StockList = () => (
           <StyledTh>Low</StyledTh>
           <StyledTh>Close</StyledTh>
           <StyledTh>Volume</StyledTh>
+          <StyledTh>Market Cap</StyledTh>
         </TableHeader>
       </thead>
       <tbody>
-        {renderStockItems()}
+        {renderStockItems(props)}
       </tbody>
     </Table>
   </Wrapper>
 );
 
 export default StockList;
+

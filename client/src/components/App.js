@@ -28,7 +28,6 @@ class App extends Component {
     this.state = {
       data: [],
       currentStocks: [],
-      timeseries: 'TIME_SERIES_DAILY',
       symbol: '',
       fetchingStockData: false,
       error: '',
@@ -41,17 +40,18 @@ class App extends Component {
   }
 
   fetchStockData = (value) => {
+    if (this.state.currentStocks.includes(value)) return;
+
     this.setState({ fetchingStockData: true });
 
-    const fetchData = {
-      timeSeries: 'TIME_SERIES_DAILY',
+    const data = {
       symbol: value,
     };
 
     const endpoint = '/api/fetchMarketData';
 
     const options = {
-      body: JSON.stringify(fetchData),
+      body: JSON.stringify(data),
       headers: {
         'content-type': 'application/json',
       },
@@ -61,21 +61,16 @@ class App extends Component {
     fetch(endpoint, options)
       .then(response => response.json())
       .then((json) => {
-        if (!json.data['Error Message']) {
-          this.updateCurrentStocks(value);
-
-          const newState = [...this.state.data, json];
-          this.setState({
-            data: newState,
-            fetchingStockData: false,
-            error: '',
-          });
-        } else {
-          throw new Error('Invalid input. Company stock symbol required.');
-        }
+        this.updateCurrentStocks(value);
+        const newState = [...this.state.data, json];
+        this.setState({
+          data: newState,
+          fetchingStockData: false,
+          error: '',
+        });
       })
       .catch((error) => {
-        console.log('Error fetching stock data');
+        console.log('Error fetching stock data', error);
         this.setState({
           error,
           fetchingStockData: false,
@@ -89,7 +84,7 @@ class App extends Component {
         <Container>
           <Header fetchStockData={this.fetchStockData} />
           <Graph />
-          <StockList />
+          <StockList stockData={this.state.data} />
         </Container>
       </Wrapper>
     );
