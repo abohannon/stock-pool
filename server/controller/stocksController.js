@@ -8,10 +8,12 @@ const helloWorld = (req, res) => {
 };
 
 const fetchMarketData = (req, res) => {
+  console.log(req.body);
   const {
     timeSeries,
     symbol,
   } = req.body;
+
   const endpoint = 'https://www.alphavantage.co/query';
 
   const config = {
