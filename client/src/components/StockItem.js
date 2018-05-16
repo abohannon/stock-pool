@@ -19,7 +19,7 @@ const Symbol = styled.td`
 `;
 
 const Close = styled.td`
-  color: ${props => (props.children > props.open ? GREEN : RED)};
+  color: ${props => (props.close > props.open ? GREEN : RED)};
   padding: .5rem;
 `;
 
@@ -31,13 +31,20 @@ const StockItem = (props) => {
   const {
     symbol, open, high, low, close, volume, marketCap, index, removeStock,
   } = props;
+  console.log(props.open, props.close);
+  console.log(props.open < props.close);
   return (
     <ItemWrapper>
       <Symbol>{symbol}</Symbol>
       <StyledTd>${open}</StyledTd>
       <StyledTd>${high}</StyledTd>
       <StyledTd>${low}</StyledTd>
-      <Close open={open}>${close}</Close>
+      <Close
+        open={open}
+        close={close}
+      >
+      ${close}
+      </Close>
       <StyledTd>{volume}</StyledTd>
       <StyledTd>{marketCap}</StyledTd>
       <StyledTd>
