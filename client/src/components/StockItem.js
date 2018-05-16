@@ -31,8 +31,7 @@ const StockItem = (props) => {
   const {
     symbol, open, high, low, close, volume, marketCap, index, removeStock,
   } = props;
-  console.log(props.open, props.close);
-  console.log(props.open < props.close);
+
   return (
     <ItemWrapper>
       <Symbol>{symbol}</Symbol>
