@@ -22,21 +22,31 @@ const Container = styled.section`
     margin-top: 10%;
   `;
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
+    state = {
       data: [],
       currentStocks: [],
       symbol: '',
       fetchingStockData: false,
       error: '',
     };
-  }
+
 
   updateCurrentStocks = (symbol) => {
     const newState = [...this.state.currentStocks, symbol];
     this.setState({ currentStocks: newState });
+  }
+
+  removeStock = (index) => {
+    const currentStocks = [...this.state.currentStocks];
+    currentStocks.splice(index, 1);
+
+    const data = [...this.state.data];
+    data.splice(index, 1);
+
+    this.setState({
+      currentStocks,
+      data,
+    });
   }
 
   fetchStockData = async (value) => {
@@ -87,7 +97,10 @@ class App extends Component {
         <Container>
           <Header fetchStockData={this.fetchStockData} />
           <Graph />
-          <StockList stockData={this.state.data} />
+          <StockList
+            stockData={this.state.data}
+            removeStock={this.removeStock}
+          />
         </Container>
       </Wrapper>
     );

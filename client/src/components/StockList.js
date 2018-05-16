@@ -34,13 +34,14 @@ const StyledTh = styled.th`
 const renderStockItems = (props) => {
   const { stockData } = props;
 
-  return stockData.map((stock, i) => {
+  return stockData.map((stock, index) => {
     const {
       symbol, open, high, low, close, latestVolume, marketCap,
     } = stock.quote;
     return (
       <StockItem
         key={symbol}
+        index={index}
         symbol={symbol}
         open={open}
         high={high}
@@ -48,6 +49,7 @@ const renderStockItems = (props) => {
         close={close}
         volume={latestVolume}
         marketCap={marketCap}
+        removeStock={props.removeStock}
       />
     );
   });

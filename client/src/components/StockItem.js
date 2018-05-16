@@ -1,15 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BLUE, GREEN, RED, GREY, WHITE_ALT } from '../constants/style';
+import { IconClose } from '../assets/icons';
+import { BLUE, GREEN, RED, GREY } from '../constants/style';
 
 const ItemWrapper = styled.tr`
   height: 3rem;
   font-weight: 600;
   color: ${GREY};
-
-  &:hover {
-    background-color: ${WHITE_ALT};
-  }
 `;
 
 const StyledTd = styled.td`
@@ -26,9 +23,13 @@ const Close = styled.td`
   padding: .5rem;
 `;
 
+const handleClick = (index) => {
+  console.log(index);
+};
+
 const StockItem = (props) => {
   const {
-    symbol, open, high, low, close, volume, marketCap,
+    symbol, open, high, low, close, volume, marketCap, index, removeStock,
   } = props;
   return (
     <ItemWrapper>
@@ -39,6 +40,13 @@ const StockItem = (props) => {
       <Close open={open}>${close}</Close>
       <StyledTd>{volume}</StyledTd>
       <StyledTd>{marketCap}</StyledTd>
+      <StyledTd>
+        <IconClose
+          width={15}
+          height={15}
+          onClick={() => removeStock(index)}
+        />
+      </StyledTd>
     </ItemWrapper>
   );
 };
