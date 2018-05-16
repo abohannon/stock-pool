@@ -9,9 +9,9 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const Header = props => (
+const Header = () => (
   <Wrapper>
-    <Search fetchStockData={props.fetchStockData} />
+    <Search />
   </Wrapper>
 );
 

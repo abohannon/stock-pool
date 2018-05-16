@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import withContext from './HOC/withContext';
 import StockItem from './StockItem';
 import { BOX_SHADOW, GREY_EXTRA_LIGHT, GREY_LIGHTEST } from '../constants/style';
 
@@ -32,27 +33,31 @@ const StyledTh = styled.th`
 `;
 
 const renderStockItems = (props) => {
-  const { stockData } = props;
+  const { context } = props;
+  const { removeStock, state } = context;
+  const stockData = state.data;
 
-  return stockData.map((stock, index) => {
-    const {
-      symbol, open, high, low, close, latestVolume, marketCap,
-    } = stock.quote;
-    return (
-      <StockItem
-        key={symbol}
-        index={index}
-        symbol={symbol}
-        open={open}
-        high={high}
-        low={low}
-        close={close}
-        volume={latestVolume}
-        marketCap={marketCap}
-        removeStock={props.removeStock}
-      />
-    );
-  });
+  return (
+    stockData.map((stock, index) => {
+      const {
+        symbol, open, high, low, close, latestVolume, marketCap,
+      } = stock.quote;
+      return (
+        <StockItem
+          key={symbol}
+          index={index}
+          symbol={symbol}
+          open={open}
+          high={high}
+          low={low}
+          close={close}
+          volume={latestVolume}
+          marketCap={marketCap}
+          removeStock={removeStock}
+        />
+      );
+    })
+  );
 };
 
 const StockList = props => (
@@ -76,5 +81,5 @@ const StockList = props => (
   </Wrapper>
 );
 
-export default StockList;
+export default withContext(StockList);
 

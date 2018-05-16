@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Provider } from './AppContext';
 import Header from './Header';
 import Graph from './Graph';
 import StockList from './StockList';
@@ -21,6 +22,7 @@ const Container = styled.section`
     margin: 0 auto;
     margin-top: 10%;
   `;
+
 class App extends Component {
     state = {
       data: [],
@@ -91,18 +93,24 @@ class App extends Component {
     }
   }
 
+  providerValue = () => ({
+    state: this.state,
+    fetchStockData: this.fetchStockData,
+    updateCurrentStocks: this.updateCurrentStocks,
+    removeStock: this.removeStock,
+  })
+
   render() {
     return (
-      <Wrapper className="app">
-        <Container>
-          <Header fetchStockData={this.fetchStockData} />
-          <Graph />
-          <StockList
-            stockData={this.state.data}
-            removeStock={this.removeStock}
-          />
-        </Container>
-      </Wrapper>
+      <Provider value={this.providerValue()}>
+        <Wrapper className="app">
+          <Container>
+            <Header />
+            <Graph />
+            <StockList />
+          </Container>
+        </Wrapper>
+      </Provider>
     );
   }
 }

@@ -23,10 +23,6 @@ const Close = styled.td`
   padding: .5rem;
 `;
 
-const handleClick = (index) => {
-  console.log(index);
-};
-
 const StockItem = (props) => {
   const {
     symbol, open, high, low, close, volume, marketCap, index, removeStock,

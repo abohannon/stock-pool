@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import withContext from './HOC/withContext';
+import { Consumer } from './AppContext';
 import { IconSearch } from '../assets/icons';
 import {
   BOX_SHADOW,
@@ -66,14 +68,15 @@ class Search extends Component {
     this.setState({ value });
   }
 
-  handleSubmit = () => {
+  handleSubmit = ({ fetchStockData }) => {
     console.log('Submit');
     if (this.state.value === '') return;
 
-    this.props.fetchStockData(this.state.value);
+    fetchStockData(this.state.value);
   }
 
   render() {
+    const { context } = this.props;
     return (
       <Wrapper className="search">
         <Input
@@ -82,7 +85,7 @@ class Search extends Component {
           value={this.state.value}
           onChange={this.handleChange}
         />
-        <IconWrapper onClick={this.handleSubmit}>
+        <IconWrapper onClick={() => this.handleSubmit(context)}>
           <IconSearch
             width={18}
             height={18}
@@ -94,5 +97,5 @@ class Search extends Component {
   }
 }
 
-export default Search;
+export default withContext(Search);
 
