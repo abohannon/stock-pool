@@ -44,6 +44,9 @@ const Wrapper = styled.div`
 //   },
 // ];
 
+// TODO: implement color picker. Needs to check if color has already been used.
+const colors = ['#5BD365', '#F78154', '#B4436C'];
+
 const calculateMargin = num => ({
   top: num, right: num, bottom: num, left: num,
 });
@@ -55,7 +58,7 @@ const Graph = props => (
         data={props.chartData}
         margin={calculateMargin(8)}
       >
-        <Line type="monotone" dataKey="price" stroke="#8884d8" />
+        <Line type="monotone" dataKey="price" stroke={colors[0]} />
         <XAxis dataKey="date" domain={['auto', 'auto']} />
         <YAxis domain={['auto', 'auto']} />
       </LineChart>
