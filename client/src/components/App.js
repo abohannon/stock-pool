@@ -25,11 +25,11 @@ class App extends Component {
     state = {
       data: [],
       currentStocks: [],
+      chartData: [],
       symbol: '',
       fetchingStockData: false,
       error: '',
     };
-
 
   updateCurrentStocks = (symbol) => {
     const newState = [...this.state.currentStocks, symbol];
@@ -82,6 +82,7 @@ class App extends Component {
       });
 
       this.updateCurrentStocks(value);
+      this.formatGraphData(this.state.data);
     } catch (error) {
       console.log('Error fetching stock data', error);
       this.setState({
@@ -91,14 +92,30 @@ class App extends Component {
     }
   }
 
+  // TODO: Keep working on this
+  formatGraphData = (data, stockName) => {
+    const chartData = data
+      .reduce((obj, curr) => curr.chart.map((item, i) => {
+        const chartObj = {};
+
+        chartObj.date = item.date;
+        chartObj.price = item.close;
+
+        return chartObj;
+      }), {});
+
+    this.setState({ chartData });
+  }
+
   render() {
+    const { data, chartData } = this.state;
     return (
       <Wrapper className="app">
         <Container>
           <Header fetchStockData={this.fetchStockData} />
-          <Graph />
+          <Graph chartData={chartData} />
           <StockList
-            stockData={this.state.data}
+            stockData={data}
             removeStock={this.removeStock}
           />
         </Container>

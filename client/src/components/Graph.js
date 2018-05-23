@@ -20,39 +20,44 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const data = [
-  {
-    date: '12-01',
-    price: 50,
-  },
-  {
-    date: '12-02',
-    price: 100,
-  },
-  {
-    date: '12-03',
-    price: 1300,
-  },
-  {
-    date: '12-04',
-    price: 10,
-  },
-];
+// TODO: Create default props with default data?
+// const data = [
+//   {
+//     date: '12-01',
+//     stockPrice1: 50,
+//     stockPrice2: 300,
+//   },
+//   {
+//     date: '12-02',
+//     stockPrice1: 100,
+//     stockPrice2: 276,
+//   },
+//   {
+//     date: '12-03',
+//     stockPrice1: 1300,
+//     stockPrice2: 200,
+//   },
+//   {
+//     date: '12-04',
+//     stockPrice1: 10,
+//     stockPrice2: 290,
+//   },
+// ];
 
 const calculateMargin = num => ({
   top: num, right: num, bottom: num, left: num,
 });
 
-const Graph = () => (
+const Graph = props => (
   <Wrapper>
     <ResponsiveContainer>
       <LineChart
-        data={data}
+        data={props.chartData}
         margin={calculateMargin(8)}
       >
         <Line type="monotone" dataKey="price" stroke="#8884d8" />
-        <XAxis dataKey="date" />
-        <YAxis />
+        <XAxis dataKey="date" domain={['auto', 'auto']} />
+        <YAxis domain={['auto', 'auto']} />
       </LineChart>
     </ResponsiveContainer>
   </Wrapper>
