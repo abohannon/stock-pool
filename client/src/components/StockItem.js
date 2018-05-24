@@ -46,7 +46,7 @@ const StockItem = (props) => {
         <IconClose
           width={15}
           height={15}
-          onClick={() => removeStock(index)}
+          onClick={() => removeStock(index, symbol)}
         />
       </StyledTd>
     </ItemWrapper>

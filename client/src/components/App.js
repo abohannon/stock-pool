@@ -36,16 +36,38 @@ class App extends Component {
     this.setState({ currentStocks: newState });
   }
 
-  removeStock = (index) => {
+  removeStock = (index, symbol) => {
+    // remove stock from currentStocks
     const currentStocks = [...this.state.currentStocks];
     currentStocks.splice(index, 1);
 
+    // remove stock from main data array
     const data = [...this.state.data];
     data.splice(index, 1);
+
+    // remove stock from chartData
+    const clonedChartData = [...this.state.chartData];
+
+    const modifiedChartData = clonedChartData.map((item) => {
+      /*
+      * Need to clone each item here because the spread above only does a shallow copy of the array
+      * but does not affect the nested objects. This means the modifications inside this would map mutate
+      * the original object (state) references which is an anti pattern.
+      */
+      const clonedItem = { ...item };
+      delete clonedItem[symbol];
+
+      if (Object.keys(clonedItem).length < 2) {
+        delete clonedItem.date;
+      }
+
+      return clonedItem;
+    });
 
     this.setState({
       currentStocks,
       data,
+      chartData: modifiedChartData,
     });
   }
 
@@ -80,9 +102,6 @@ class App extends Component {
         fetchingStockData: false,
         error: '',
       });
-
-      this.updateCurrentStocks(value);
-      this.formatGraphData(this.state.data);
     } catch (error) {
       console.log('Error fetching stock data', error);
       this.setState({
@@ -90,18 +109,21 @@ class App extends Component {
         fetchingStockData: false,
       });
     }
+
+    this.updateCurrentStocks(value);
+    this.formatGraphData();
   }
 
-  // TODO: Keep working on this
-  formatGraphData = (data, stockName) => {
-    const chartData = data
-      .reduce((obj, curr) => curr.chart.map((item, i) => {
+  // format raw stock data for recharts
+  formatGraphData = () => {
+    const chartData = [...this.state.data]
+      .reduce((obj, stock) => stock.chart.map((item, i) => {
         const chartObj = {};
 
         chartObj.date = item.date;
-        chartObj.price = item.close;
+        chartObj[stock.quote.symbol] = item.close;
 
-        return chartObj;
+        return { ...this.state.chartData[i], ...chartObj };
       }), {});
 
     this.setState({ chartData });

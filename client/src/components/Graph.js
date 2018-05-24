@@ -7,6 +7,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import { scaleLog } from 'd3-scale';
 import { BOX_SHADOW } from '../constants/style';
 
 const Wrapper = styled.div`
@@ -45,11 +46,32 @@ const Wrapper = styled.div`
 // ];
 
 // TODO: implement color picker. Needs to check if color has already been used.
-const colors = ['#5BD365', '#F78154', '#B4436C'];
+const colors = ['#5BD365', '#F78154', '#B4436C', '#3D0C11', '#86A5D9', '#9BDEAC', '#D95D39', '#E5BEED'];
+
+const generateColors = () => {
+
+};
 
 const calculateMargin = num => ({
   top: num, right: num, bottom: num, left: num,
 });
+
+const renderLines = (props) => {
+  if (props.chartData.length > 0) {
+    return Object.keys(props.chartData[0]).map((item, i) => {
+      if (item !== 'date') {
+        return (
+          <Line
+            type="linear"
+            dataKey={item}
+            stroke={colors[0]}
+          />
+        );
+      }
+    });
+  }
+  return null;
+};
 
 const Graph = props => (
   <Wrapper>
@@ -58,9 +80,12 @@ const Graph = props => (
         data={props.chartData}
         margin={calculateMargin(8)}
       >
-        <Line type="monotone" dataKey="price" stroke={colors[0]} />
+        {renderLines(props)}
         <XAxis dataKey="date" domain={['auto', 'auto']} />
-        <YAxis domain={['auto', 'auto']} />
+        <YAxis
+          type="number"
+          domain={['auto', 'auto']}
+        />
       </LineChart>
     </ResponsiveContainer>
   </Wrapper>

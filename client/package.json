@@ -9,6 +9,7 @@
     }
   },
   "dependencies": {
+    "d3-scale": "^2.0.0",
     "normalize.css": "^8.0.0",
     "react": "^16.3.2",
     "react-animations": "^1.0.0",
