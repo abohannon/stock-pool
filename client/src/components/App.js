@@ -48,7 +48,7 @@ class App extends Component {
     // remove stock from chartData
     const clonedChartData = [...this.state.chartData];
 
-    const modifiedChartData = clonedChartData.map((item) => {
+    const chartData = clonedChartData.map((item) => {
       /*
       * Need to clone each item here because the spread above only does a shallow copy of the array
       * but does not affect the nested objects. This means the modifications inside this would map mutate
@@ -67,7 +67,7 @@ class App extends Component {
     this.setState({
       currentStocks,
       data,
-      chartData: modifiedChartData,
+      chartData,
     });
   }
 
