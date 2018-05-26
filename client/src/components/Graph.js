@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import {
   ResponsiveContainer,
   LineChart,
@@ -7,7 +8,6 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { scaleLog } from 'd3-scale';
 import { BOX_SHADOW } from '../constants/style';
 
 const Wrapper = styled.div`
@@ -62,6 +62,7 @@ const renderLines = (props) => {
       if (item !== 'date') {
         return (
           <Line
+            key={item}
             type="linear"
             dataKey={item}
             stroke={colors[0]}
@@ -90,5 +91,9 @@ const Graph = props => (
     </ResponsiveContainer>
   </Wrapper>
 );
+
+Graph.propTypes = {
+  chartData: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default Graph;
