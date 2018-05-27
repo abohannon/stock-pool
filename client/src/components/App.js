@@ -30,45 +30,6 @@ class App extends Component {
       error: '',
     };
 
-  updateCurrentStocks = (symbol) => {
-    const newState = [...this.state.currentStocks, symbol];
-    this.setState({ currentStocks: newState });
-  }
-
-  removeStock = (index, symbol) => {
-    // remove stock from currentStocks
-    const currentStocks = [...this.state.currentStocks];
-    currentStocks.splice(index, 1);
-
-    // remove stock from main data array
-    const data = [...this.state.data];
-    data.splice(index, 1);
-
-    // remove stock from chartData
-    // const clonedChartData = [...this.state.chartData];
-
-    // const chartData = clonedChartData.map((item) => {
-    //   /*
-    //   * Need to clone each item here because the spread above only does a shallow copy of the array
-    //   * but does not affect the nested objects. This means the modifications inside this would map mutate
-    //   * the original object (state) references which is an anti pattern.
-    //   */
-    //   const clonedItem = { ...item };
-    //   delete clonedItem[symbol];
-
-    //   if (Object.keys(clonedItem).length < 2) {
-    //     delete clonedItem.date;
-    //   }
-
-    //   return clonedItem;
-    // });
-
-    this.setState({
-      currentStocks,
-      data,
-    });
-  }
-
   fetchStockData = async (value) => {
     if (this.state.currentStocks.includes(value)) return;
 
@@ -99,7 +60,7 @@ class App extends Component {
         data: newState,
         fetchingStockData: false,
         error: '',
-      });
+      }, () => this.updateCurrentStocks(value));
     } catch (error) {
       console.log('Error fetching stock data', error);
       this.setState({
@@ -107,9 +68,32 @@ class App extends Component {
         fetchingStockData: false,
       });
     }
-
-    this.updateCurrentStocks(value);
   }
+
+  updateCurrentStocks = (symbol) => {
+    const newState = [...this.state.currentStocks, symbol];
+    this.setState({ currentStocks: newState });
+  }
+
+  removeStock = (index) => {
+    this.setState({
+      currentStocks: this.removeFromCurrentStocks(index),
+      data: this.removeFromMainData(index),
+    });
+  }
+
+  removeFromCurrentStocks = (index) => {
+    const currentStocks = [...this.state.currentStocks];
+    currentStocks.splice(index, 1);
+    return currentStocks;
+  }
+
+  removeFromMainData = (index) => {
+    const data = [...this.state.data];
+    data.splice(index, 1);
+    return data;
+  }
+
 
   render() {
     const { data } = this.state;

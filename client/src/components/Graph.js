@@ -21,6 +21,10 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `;
 class Graph extends Component {
+  static propTypes = {
+    stockData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }
+
   state = {
     chartData: [],
   }
