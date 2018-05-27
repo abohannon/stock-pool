@@ -40,13 +40,14 @@ class Graph extends Component {
     const { stockData } = this.props;
 
     const chartData = stockData
-      .reduce((map, stock) => stock.chart.reduce((map2, chartItem) => {
-        const chartObj = map.get(chartItem.date) || { date: chartItem.date };
-
-        chartObj[stock.quote.symbol] = chartItem.close;
-
-        return map.set(chartItem.date, chartObj);
-      }, map), new Map());
+      .reduce((map, stock) => {
+        stock.chart.forEach((chart) => {
+          const chartObj = map.get(chart.date) || { date: chart.date };
+          chartObj[stock.quote.symbol] = chart.close;
+          map.set(chart.date, chartObj);
+        });
+        return map;
+      }, new Map());
 
     this.setState({ chartData: [...chartData.values()] });
   }
