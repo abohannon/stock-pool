@@ -25,7 +25,6 @@ class App extends Component {
     state = {
       data: [],
       currentStocks: [],
-      chartData: [],
       symbol: '',
       fetchingStockData: false,
       error: '',
@@ -46,28 +45,27 @@ class App extends Component {
     data.splice(index, 1);
 
     // remove stock from chartData
-    const clonedChartData = [...this.state.chartData];
+    // const clonedChartData = [...this.state.chartData];
 
-    const chartData = clonedChartData.map((item) => {
-      /*
-      * Need to clone each item here because the spread above only does a shallow copy of the array
-      * but does not affect the nested objects. This means the modifications inside this would map mutate
-      * the original object (state) references which is an anti pattern.
-      */
-      const clonedItem = { ...item };
-      delete clonedItem[symbol];
+    // const chartData = clonedChartData.map((item) => {
+    //   /*
+    //   * Need to clone each item here because the spread above only does a shallow copy of the array
+    //   * but does not affect the nested objects. This means the modifications inside this would map mutate
+    //   * the original object (state) references which is an anti pattern.
+    //   */
+    //   const clonedItem = { ...item };
+    //   delete clonedItem[symbol];
 
-      if (Object.keys(clonedItem).length < 2) {
-        delete clonedItem.date;
-      }
+    //   if (Object.keys(clonedItem).length < 2) {
+    //     delete clonedItem.date;
+    //   }
 
-      return clonedItem;
-    });
+    //   return clonedItem;
+    // });
 
     this.setState({
       currentStocks,
       data,
-      chartData,
     });
   }
 
@@ -111,31 +109,15 @@ class App extends Component {
     }
 
     this.updateCurrentStocks(value);
-    this.formatGraphData();
-  }
-
-  // format raw stock data for recharts
-  formatGraphData = () => {
-    const chartData = [...this.state.data]
-      .reduce((obj, stock) => stock.chart.map((item, i) => {
-        const chartObj = {};
-
-        chartObj.date = item.date;
-        chartObj[stock.quote.symbol] = item.close;
-
-        return { ...this.state.chartData[i], ...chartObj };
-      }), {});
-
-    this.setState({ chartData });
   }
 
   render() {
-    const { data, chartData } = this.state;
+    const { data } = this.state;
     return (
       <Wrapper className="app">
         <Container>
           <Header fetchStockData={this.fetchStockData} />
-          <Graph chartData={chartData} />
+          <Graph stockData={data} />
           <StockList
             stockData={data}
             removeStock={this.removeStock}
