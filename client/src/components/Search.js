@@ -56,7 +56,6 @@ class Search extends Component {
 
     this.state = {
       value: '',
-      error: '',
     };
   }
 
@@ -67,7 +66,6 @@ class Search extends Component {
   }
 
   handleSubmit = () => {
-    console.log('Submit');
     if (this.state.value === '') return;
 
     this.props.fetchStockData(this.state.value);

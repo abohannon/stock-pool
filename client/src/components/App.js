@@ -31,7 +31,12 @@ class App extends Component {
     };
 
   fetchStockData = async (value) => {
-    if (this.state.currentStocks.includes(value)) return;
+    if (this.state.currentStocks.includes(value)) {
+      this.setState({
+        error: { message: 'Ticker already chosen' },
+      });
+      return;
+    }
 
     this.setState({ fetchingStockData: true });
 
@@ -96,11 +101,11 @@ class App extends Component {
 
 
   render() {
-    const { data } = this.state;
+    const { data, error } = this.state;
     return (
       <Wrapper className="app">
         <Container>
-          <Header fetchStockData={this.fetchStockData} />
+          <Header fetchStockData={this.fetchStockData} error={error.message} />
           <Graph stockData={data} />
           <StockList
             stockData={data}
