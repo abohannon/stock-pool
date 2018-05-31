@@ -10,18 +10,29 @@ import {
   Tooltip,
 } from 'recharts';
 import CustomTooltip from './CustomTooltip';
-import { BOX_SHADOW } from '../constants/style';
+import { WHITE_ALT, BOX_SHADOW } from '../constants/style';
 
 const Wrapper = styled.div`
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 1rem;
   background-color: white;
   height: 400px;
   border-radius: 2px;
   box-shadow: ${BOX_SHADOW};
-  padding: 2rem 2rem 1rem 0;
+  padding: 2rem 2rem 1rem 2rem;
   box-sizing: border-box;
 `;
+
+const Empty = styled.div`
+  font-size: 3rem;
+  color: ${WHITE_ALT};
+  text-align: center;
+  padding: 0 2rem;
+`;
+
 class Graph extends Component {
   static propTypes = {
     stockData: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -77,24 +88,33 @@ renderLines = () => {
   return null;
 };
 
+renderEmpty = () => (
+  <Empty>
+      No stocks selected. Use the search to get started.
+  </Empty>
+)
+
 render() {
   const { chartData } = this.state;
   return (
     <Wrapper>
-      <ResponsiveContainer>
-        <LineChart
-          data={chartData}
-          margin={this.calculateMargin(8)}
-        >
-          {this.renderLines()}
-          <XAxis dataKey="date" domain={['auto', 'auto']} />
-          <YAxis
-            type="number"
-            domain={['auto', 'auto']}
-          />
-          <Tooltip content={<CustomTooltip />} />
-        </LineChart>
-      </ResponsiveContainer>
+      { chartData.length < 1
+    ? this.renderEmpty()
+    : <ResponsiveContainer>
+      <LineChart
+        data={chartData}
+        margin={this.calculateMargin(8)}
+      >
+        {this.renderLines()}
+        <XAxis dataKey="date" domain={['auto', 'auto']} />
+        <YAxis
+          type="number"
+          domain={['auto', 'auto']}
+        />
+        <Tooltip content={<CustomTooltip />} />
+      </LineChart>
+    </ResponsiveContainer>
+    }
     </Wrapper>
   );
 }
