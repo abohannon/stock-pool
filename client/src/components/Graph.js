@@ -7,7 +7,9 @@ import {
   Line,
   XAxis,
   YAxis,
+  Tooltip,
 } from 'recharts';
+import CustomTooltip from './CustomTooltip';
 import { BOX_SHADOW } from '../constants/style';
 
 const Wrapper = styled.div`
@@ -90,6 +92,7 @@ render() {
             type="number"
             domain={['auto', 'auto']}
           />
+          <Tooltip content={<CustomTooltip />} />
         </LineChart>
       </ResponsiveContainer>
     </Wrapper>
