@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import Header from './Header';
 import Graph from './Graph';
 import StockList from './StockList';
+import { VANILLA_GREY } from '../constants/style';
 
 const Wrapper = styled.main`
   display: flex;
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  background-color: #f0f0f0;
+  background-color: ${VANILLA_GREY};
   padding: 0 2rem;
   box-sizing: border-box;
   `;

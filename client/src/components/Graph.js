@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from 'recharts';
 import CustomTooltip from './CustomTooltip';
-import { WHITE_ALT, BOX_SHADOW } from '../constants/style';
+import { BOX_SHADOW, GREEN, GREY_EXTRA_LIGHT } from '../constants/style';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -28,7 +28,7 @@ const Wrapper = styled.div`
 
 const Empty = styled.div`
   font-size: 3rem;
-  color: ${WHITE_ALT};
+  color: ${GREY_EXTRA_LIGHT};
   text-align: center;
   padding: 0 2rem;
 `;
@@ -96,7 +96,7 @@ renderLines = () => {
             key={item}
             type="linear"
             dataKey={item}
-            stroke="#9BDEAC"
+            stroke={GREEN}
           />
         );
       }
@@ -130,7 +130,7 @@ render() {
         />
         <Tooltip content={<CustomTooltip />} />
       </LineChart>
-    </ResponsiveContainer>
+      </ResponsiveContainer>
     }
     </Wrapper>
   );
