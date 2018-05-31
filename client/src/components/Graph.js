@@ -52,9 +52,6 @@ class Graph extends Component {
     this.setState({ chartData: [...chartData.values()] });
   }
 
-// TODO: implement color picker. Needs to check if color has already been used.
-colors = ['#5BD365', '#F78154', '#B4436C', '#3D0C11', '#86A5D9', '#9BDEAC', '#D95D39', '#E5BEED'];
-
 calculateMargin = num => ({
   top: num, right: num, bottom: num, left: num,
 });
@@ -69,7 +66,7 @@ renderLines = () => {
             key={item}
             type="linear"
             dataKey={item}
-            stroke={this.colors[0]}
+            stroke="#9BDEAC"
           />
         );
       }
