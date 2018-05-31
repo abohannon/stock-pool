@@ -19,10 +19,10 @@ const Wrapper = styled.div`
   align-items: center;
   margin-bottom: 1rem;
   background-color: white;
-  height: 400px;
+  height: 500px;
   border-radius: 2px;
   box-shadow: ${BOX_SHADOW};
-  padding: 2rem 2rem 1rem 2rem;
+  padding: 2rem 2rem 2rem 2rem;
   box-sizing: border-box;
 `;
 
@@ -69,10 +69,27 @@ calculateMargin = num => ({
   top: num, right: num, bottom: num, left: num,
 });
 
+formatYTick = value => `$${value}`
+formatXTick = (value) => {
+  const split = value.split('-');
+
+  const day = split[2];
+  const month = split[1];
+  const year = split[0];
+
+  return `${month}/${day}/${year}`;
+}
+
+renderEmpty = () => (
+  <Empty>
+      No stocks selected. Use the search to get started.
+  </Empty>
+)
+
 renderLines = () => {
   const { chartData } = this.state;
   if (chartData.length > 0) {
-    return Object.keys(chartData[0]).map((item, i) => {
+    return Object.keys(chartData[0]).map((item) => {
       if (item !== 'date') {
         return (
           <Line
@@ -88,12 +105,6 @@ renderLines = () => {
   return null;
 };
 
-renderEmpty = () => (
-  <Empty>
-      No stocks selected. Use the search to get started.
-  </Empty>
-)
-
 render() {
   const { chartData } = this.state;
   return (
@@ -106,10 +117,16 @@ render() {
         margin={this.calculateMargin(8)}
       >
         {this.renderLines()}
-        <XAxis dataKey="date" domain={['auto', 'auto']} />
+        <XAxis
+          dataKey="date"
+          domain={['auto', 'auto']}
+          tickFormatter={this.formatXTick}
+          tickMargin={10}
+        />
         <YAxis
           type="number"
           domain={['auto', 'auto']}
+          tickFormatter={this.formatYTick}
         />
         <Tooltip content={<CustomTooltip />} />
       </LineChart>
