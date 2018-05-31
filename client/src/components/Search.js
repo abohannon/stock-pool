@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { SmallButton } from '../components/common';
 import { IconSearch } from '../assets/icons';
 import {
   BOX_SHADOW,
@@ -80,13 +81,18 @@ class Search extends Component {
           value={this.state.value}
           onChange={this.handleChange}
         />
-        <IconWrapper onClick={this.handleSubmit}>
+        <SmallButton
+          onClick={this.handleSubmit}
+          backgroundColor={BLUE}
+          activeColor={BLUE_DARK}
+        >
           <IconSearch
             width={18}
             height={18}
             fill={WHITE}
           />
-        </IconWrapper>
+        </SmallButton>
+
       </Wrapper>
     );
   }

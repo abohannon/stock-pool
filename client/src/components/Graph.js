@@ -97,6 +97,7 @@ renderLines = () => {
             type="linear"
             dataKey={item}
             stroke={GREEN}
+            dot={false}
           />
         );
       }
@@ -130,7 +131,7 @@ render() {
         />
         <Tooltip content={<CustomTooltip />} />
       </LineChart>
-      </ResponsiveContainer>
+    </ResponsiveContainer>
     }
     </Wrapper>
   );

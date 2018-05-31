@@ -9,9 +9,10 @@ const helloWorld = (req, res) => {
 const fetchMarketData = async (req, res) => {
   const {
     symbol,
+    range = '1m',
   } = req.body;
 
-  const endpoint = `https://api.iextrading.com/1.0/stock/${symbol}/batch?types=quote,news,chart&range=1m`;
+  const endpoint = `https://api.iextrading.com/1.0/stock/${symbol}/batch?types=quote,news,chart&range=${range}`;
 
   try {
     const response = await axios.get(endpoint);

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Search from './Search';
+import RangeSelector from './RangeSelector';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -24,6 +25,7 @@ const Header = props => (
   <Wrapper>
     <Search fetchStockData={props.fetchStockData} />
     <Error error={props.error}>{props.error}</Error>
+    <RangeSelector />
   </Wrapper>
 );
 
