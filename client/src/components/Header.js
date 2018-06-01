@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import Search from './Search';
 import RangeSelector from './RangeSelector';
@@ -21,13 +21,43 @@ transition: all .2s;
 
 `;
 
-const Header = props => (
-  <Wrapper>
-    <Search fetchStockData={props.fetchStockData} />
-    <Error error={props.error}>{props.error}</Error>
-    <RangeSelector />
-  </Wrapper>
-);
+class Header extends Component {
+  state = {
+    searchValue: '',
+    range: '1m',
+  }
+
+  setTimeRange = (range) => {
+    console.log(range);
+    this.setState({ range });
+  }
+
+  handleInputChange = (event) => {
+    const { target: { value } } = event;
+
+    this.setState({ searchValue: value });
+  }
+
+  handleInputSubmit = () => {
+    if (this.state.searchValue === '') return;
+
+    this.props.fetchStockData(this.state);
+  }
+
+  render() {
+    return (
+      <Wrapper>
+        <Search
+          searchValue={this.state.searchValue}
+          handleInputChange={this.handleInputChange}
+          handleInputSubmit={this.handleInputSubmit}
+        />
+        <Error error={this.props.error}>{this.props.error}</Error>
+        <RangeSelector setTimeRange={this.setTimeRange} />
+      </Wrapper>
+    );
+  }
+}
 
 export default Header;
 

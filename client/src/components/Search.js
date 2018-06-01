@@ -36,53 +36,18 @@ const Input = styled.input`
   }
 `;
 
-const IconWrapper = styled.button`
-  background-color: ${BLUE};
-  width: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  cursor: pointer;
-  transition: all .2s;
-
-  &:active {
-    background-color: ${BLUE_DARK};
-  }
-`;
-
 class Search extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      value: '',
-    };
-  }
-
-  handleChange = (event) => {
-    const { target: { value } } = event;
-
-    this.setState({ value });
-  }
-
-  handleSubmit = () => {
-    if (this.state.value === '') return;
-
-    this.props.fetchStockData(this.state.value);
-  }
-
   render() {
     return (
       <Wrapper className="search">
         <Input
           type="text"
           placeholder="TSLA"
-          value={this.state.value}
-          onChange={this.handleChange}
+          value={this.props.searchValue}
+          onChange={this.props.handleInputChange}
         />
         <SmallButton
-          onClick={this.handleSubmit}
+          onClick={this.props.handleInputSubmit}
           backgroundColor={BLUE}
           activeColor={BLUE_DARK}
         >
@@ -92,7 +57,6 @@ class Search extends Component {
             fill={WHITE}
           />
         </SmallButton>
-
       </Wrapper>
     );
   }

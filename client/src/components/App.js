@@ -20,7 +20,7 @@ const Container = styled.section`
     width: 100%;
     height: 400px;
     margin: 0 auto;
-    margin-top: 10%;
+    margin-top: 5%;
   `;
 class App extends Component {
     state = {
@@ -31,8 +31,8 @@ class App extends Component {
       error: '',
     };
 
-  fetchStockData = async (value) => {
-    if (this.state.currentStocks.includes(value)) {
+  fetchStockData = async (data) => {
+    if (this.state.currentStocks.includes(data.searchValue)) {
       this.setState({
         error: { message: 'Ticker already chosen' },
       });
@@ -41,14 +41,15 @@ class App extends Component {
 
     this.setState({ fetchingStockData: true });
 
-    const data = {
-      symbol: value,
+    const payload = {
+      symbol: data.searchValue,
+      range: data.range,
     };
 
     const endpoint = '/api/fetchMarketData';
 
     const options = {
-      body: JSON.stringify(data),
+      body: JSON.stringify(payload),
       headers: {
         'content-type': 'application/json',
       },
@@ -66,7 +67,7 @@ class App extends Component {
         data: newState,
         fetchingStockData: false,
         error: '',
-      }, () => this.updateCurrentStocks(value));
+      }, () => this.updateCurrentStocks(data.searchValue));
     } catch (error) {
       console.log('Error fetching stock data', error);
       this.setState({

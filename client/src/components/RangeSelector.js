@@ -16,15 +16,22 @@ const StyledSmallButton = styled(SmallButton)`
   color: ${GREY_LIGHT};
 `;
 
-const renderButtons = () => {
+const renderButtons = (props) => {
   const ranges = ['1m', '3m', '6m', 'YTD', '1y', '2y', '5y'];
 
-  return ranges.map(item => <StyledSmallButton key={item}>{item}</StyledSmallButton>);
+  return ranges.map(item => (
+    <StyledSmallButton
+      key={item}
+      onClick={() => props.setTimeRange(item)}
+    >
+      {item}
+    </StyledSmallButton>
+  ));
 };
 
-const RangeSelector = () => (
+const RangeSelector = props => (
   <Wrapper>
-    {renderButtons()}
+    {renderButtons(props)}
   </Wrapper>
 );
 
