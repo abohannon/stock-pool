@@ -41,23 +41,12 @@ class App extends Component {
 
     this.setState({ fetchingStockData: true });
 
-    const data = {
-      symbol: value,
-    };
-
-    const endpoint = '/api/fetchMarketData';
-
-    const options = {
-      body: JSON.stringify(data),
-      headers: {
-        'content-type': 'application/json',
-      },
-      method: 'POST',
-    };
+    const endpoint = `https://api.iextrading.com/1.0/stock/${value}/batch?types=quote,news,chart&range=1m`;
 
     try {
-      const response = await fetch(endpoint, options);
+      const response = await fetch(endpoint);
       if (response.status !== 200) throw new Error('Ticker not found');
+
       const json = await response.json();
 
       const newState = [...this.state.data, json];
