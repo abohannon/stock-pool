@@ -13,6 +13,8 @@ const fetchMarketData = async (req, res) => {
   } = req.body;
 
   const endpoint = `https://api.iextrading.com/1.0/stock/${symbol}/batch?types=quote,news,chart&range=${range}`;
+  // TODO: Rework to use batch request instead of individual
+  // const endpoint = `https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbol}&types=quote,news,chart&range=${range}`;
 
   try {
     const response = await axios.get(endpoint);
