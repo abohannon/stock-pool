@@ -35,7 +35,7 @@ const Empty = styled.div`
 
 class Graph extends Component {
   static propTypes = {
-    stockData: PropTypes.arrayOf(PropTypes.object).isRequired,
+    stockData: PropTypes.object.isRequired,
   }
 
   state = {
@@ -44,7 +44,7 @@ class Graph extends Component {
 
   componentDidUpdate(prevProps) {
     const { stockData } = this.props;
-    if (stockData.length !== prevProps.stockData.length) {
+    if (Object.keys(stockData).length !== Object.keys(prevProps.stockData).length) {
       this.formatChartData();
     }
   }
@@ -52,11 +52,11 @@ class Graph extends Component {
   formatChartData = () => {
     const { stockData } = this.props;
 
-    const chartData = stockData
+    const chartData = Object.keys(stockData)
       .reduce((map, stock) => {
-        stock.chart.forEach((chart) => {
+        stockData[stock].chart.forEach((chart) => {
           const chartObj = map.get(chart.date) || { date: chart.date };
-          chartObj[stock.quote.symbol] = chart.close;
+          chartObj[stockData[stock].quote.symbol] = chart.close;
           map.set(chart.date, chartObj);
         });
         return map;
@@ -131,7 +131,7 @@ render() {
         />
         <Tooltip content={<CustomTooltip />} />
       </LineChart>
-      </ResponsiveContainer>
+    </ResponsiveContainer>
     }
     </Wrapper>
   );

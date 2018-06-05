@@ -49,7 +49,7 @@ class App extends Component {
     const { searchValue } = data;
     if (this.state.currentStocks.includes(searchValue)) {
       this.setState({
-        error: { message: 'Ticker already chosen' },
+        error: 'Ticker already chosen',
       });
       return;
     }
@@ -113,6 +113,7 @@ class App extends Component {
       <Wrapper className="app">
         <Container>
           <Header updateStocks={this.updateStocks} error={error} />
+          <Graph stockData={data} />
           <StockList
             stockData={data}
             removeStock={this.removeStock}
@@ -124,6 +125,4 @@ class App extends Component {
 }
 
 export default App;
-
-// <Graph stockData={data} />
 
