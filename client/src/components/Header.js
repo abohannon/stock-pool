@@ -41,7 +41,7 @@ class Header extends Component {
   handleInputSubmit = () => {
     if (this.state.searchValue === '') return;
 
-    this.props.fetchStockData(this.state);
+    this.props.updateStocks(this.state);
   }
 
   render() {

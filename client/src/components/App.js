@@ -24,38 +24,60 @@ const Container = styled.section`
   `;
 class App extends Component {
     state = {
-      data: [],
+      data: {},
       currentStocks: [],
       symbol: '',
       fetchingStockData: false,
       error: '',
     };
 
-  fetchStockData = async (data) => {
-    if (this.state.currentStocks.includes(data.searchValue)) {
+  // Check if stock is valid ticker before proceeding
+  queryStock = async (symbol) => {
+    const endpoint = `https://api.iextrading.com/1.0/stock/${symbol}/company`;
+
+    const response = await fetch(endpoint);
+
+    if (response.status !== 200) {
+      this.setState({
+        error: 'Ticker not found',
+      });
+    }
+    return response.status === 200;
+  }
+
+  updateStocks = async (data) => {
+    const { searchValue } = data;
+    if (this.state.currentStocks.includes(searchValue)) {
       this.setState({
         error: { message: 'Ticker already chosen' },
       });
       return;
     }
 
+    if (await this.queryStock(searchValue)) {
+      const newState = [...this.state.currentStocks, searchValue];
+      this.setState({ currentStocks: newState }, () => this.fetchStockData(data));
+    }
+  }
+
+  fetchStockData = async (data) => {
     this.setState({ fetchingStockData: true });
 
-    const endpoint = `https://api.iextrading.com/1.0/stock/${value}/batch?types=quote,news,chart&range=1m`;
+    const { range } = data;
+
+    const symbols = this.state.currentStocks.toString();
+
+    const endpoint = `https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbols}&types=quote,news,chart&range=${range}&last=5`;
 
     try {
       const response = await fetch(endpoint);
-      if (response.status !== 200) throw new Error('Ticker not found');
-
       const json = await response.json();
 
-      const newState = [...this.state.data, json];
-
       this.setState({
-        data: newState,
+        data: json,
         fetchingStockData: false,
         error: '',
-      }, () => this.updateCurrentStocks(data.searchValue));
+      });
     } catch (error) {
       console.log('Error fetching stock data', error);
       this.setState({
@@ -65,15 +87,10 @@ class App extends Component {
     }
   }
 
-  updateCurrentStocks = (symbol) => {
-    const newState = [...this.state.currentStocks, symbol];
-    this.setState({ currentStocks: newState });
-  }
-
-  removeStock = (index) => {
+  removeStock = (index, symbol) => {
     this.setState({
       currentStocks: this.removeFromCurrentStocks(index),
-      data: this.removeFromMainData(index),
+      data: this.removeFromMainData(symbol),
     });
   }
 
@@ -83,10 +100,10 @@ class App extends Component {
     return currentStocks;
   }
 
-  removeFromMainData = (index) => {
-    const data = [...this.state.data];
-    data.splice(index, 1);
-    return data;
+  removeFromMainData = (symbol) => {
+    const newState = { ...this.state.data };
+    delete newState[symbol];
+    return newState;
   }
 
 
@@ -95,8 +112,7 @@ class App extends Component {
     return (
       <Wrapper className="app">
         <Container>
-          <Header fetchStockData={this.fetchStockData} error={error.message} />
-          <Graph stockData={data} />
+          <Header updateStocks={this.updateStocks} error={error} />
           <StockList
             stockData={data}
             removeStock={this.removeStock}
@@ -108,3 +124,6 @@ class App extends Component {
 }
 
 export default App;
+
+// <Graph stockData={data} />
+

@@ -131,7 +131,7 @@ render() {
         />
         <Tooltip content={<CustomTooltip />} />
       </LineChart>
-    </ResponsiveContainer>
+      </ResponsiveContainer>
     }
     </Wrapper>
   );

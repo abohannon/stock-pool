@@ -34,10 +34,19 @@ const StyledTh = styled.th`
 const renderStockItems = (props) => {
   const { stockData } = props;
 
-  return stockData.map((stock, index) => {
+  return Object.keys(stockData).map((stock, index) => {
     const {
-      symbol, open, high, low, close, latestVolume, marketCap,
-    } = stock.quote;
+      quote:
+      {
+        symbol,
+        open,
+        high,
+        low,
+        close,
+        latestVolume,
+        marketCap,
+      },
+    } = stockData[stock];
     return (
       <StockItem
         key={symbol}
