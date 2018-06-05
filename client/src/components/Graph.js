@@ -44,12 +44,23 @@ class Graph extends Component {
 
   componentDidUpdate(prevProps) {
     const { stockData } = this.props;
+
+    if (stockData[Object.keys(stockData)[0]] &&
+    prevProps.stockData[Object.keys(stockData)[0]]) {
+      const currChartLength = stockData[Object.keys(stockData)[0]].chart.length;
+      const prevChartLength = prevProps.stockData[Object.keys(stockData)[0]].chart.length;
+      if (currChartLength !== prevChartLength) {
+        this.formatChartData();
+      }
+    }
+
     if (Object.keys(stockData).length !== Object.keys(prevProps.stockData).length) {
       this.formatChartData();
     }
   }
 
   formatChartData = () => {
+    console.log('formatChartData');
     const { stockData } = this.props;
 
     const chartData = Object.keys(stockData)
@@ -131,7 +142,7 @@ render() {
         />
         <Tooltip content={<CustomTooltip />} />
       </LineChart>
-    </ResponsiveContainer>
+      </ResponsiveContainer>
     }
     </Wrapper>
   );

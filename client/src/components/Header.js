@@ -24,12 +24,10 @@ transition: all .2s;
 class Header extends Component {
   state = {
     searchValue: '',
-    range: '1m',
   }
 
   setTimeRange = (range) => {
-    console.log(range);
-    this.setState({ range });
+    this.props.setRange(range);
   }
 
   handleInputChange = (event) => {

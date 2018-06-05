@@ -27,9 +27,20 @@ class App extends Component {
       data: {},
       currentStocks: [],
       symbol: '',
+      range: '1m',
       fetchingStockData: false,
       error: '',
     };
+
+    componentDidUpdate(prevProps, prevState) {
+      if (this.state.range !== prevState.range) {
+        this.fetchStockData();
+      }
+    }
+
+  setRange = (range) => {
+    this.setState({ range });
+  }
 
   // Check if stock is valid ticker before proceeding
   queryStock = async (symbol) => {
@@ -60,14 +71,14 @@ class App extends Component {
     }
   }
 
-  fetchStockData = async (data) => {
+  fetchStockData = async () => {
     this.setState({ fetchingStockData: true });
 
-    const { range } = data;
-
+    const { range } = this.state;
     const symbols = this.state.currentStocks.toString();
+    const chartInterval = range === '2y' || range === '5y' ? 10 : 1;
 
-    const endpoint = `https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbols}&types=quote,news,chart&range=${range}&last=5`;
+    const endpoint = `https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbols}&types=quote,news,chart&range=${range}&last=5&chartInterval=${chartInterval}`;
 
     try {
       const response = await fetch(endpoint);
@@ -106,13 +117,12 @@ class App extends Component {
     return newState;
   }
 
-
   render() {
-    const { data, error } = this.state;
+    const { data, error, range } = this.state;
     return (
       <Wrapper className="app">
         <Container>
-          <Header updateStocks={this.updateStocks} error={error} />
+          <Header updateStocks={this.updateStocks} setRange={this.setRange} error={error} />
           <Graph stockData={data} />
           <StockList
             stockData={data}
