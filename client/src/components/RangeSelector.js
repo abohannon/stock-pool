@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { SmallButton } from '../components/common';
-import { BOX_SHADOW, GREY_DARK, GREY_LIGHT } from '../constants/style';
+import { BOX_SHADOW, GREY_LIGHT } from '../constants/style';
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ const StyledSmallButton = styled(SmallButton)`
 `;
 
 const renderButtons = (props) => {
-  const ranges = ['1m', '3m', '6m', 'YTD', '1y', '2y', '5y'];
+  const ranges = ['1m', '3m', '6m', 'YTD', '1y', '2y'];
 
   return ranges.map(item => (
     <StyledSmallButton

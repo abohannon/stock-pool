@@ -76,7 +76,7 @@ class App extends Component {
 
     const { range } = this.state;
     const symbols = this.state.currentStocks.toString();
-    const chartInterval = range === '2y' || range === '5y' ? 10 : 1;
+    const chartInterval = range === '2y' ? 10 : 1;
 
     const endpoint = `https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbols}&types=quote,news,chart&range=${range}&last=5&chartInterval=${chartInterval}`;
 
