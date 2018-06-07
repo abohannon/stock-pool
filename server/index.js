@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const io = require('socket.io')();
 const routes = require('./routes');
 const keys = require('./config/keys');
 
@@ -24,5 +25,12 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => { console.log(`Server listening on port ${PORT}`); });
+const server = app.listen(PORT, () => { console.log(`Server listening on port ${PORT}`); });
+
+io.listen(server);
+console.log('Socket connected.');
+
+io.on('connection', (client) => {
+  console.log('Made socket connection', client.id);
+});
 
