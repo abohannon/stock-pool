@@ -11,6 +11,7 @@ import {
 } from 'recharts';
 import CustomTooltip from './CustomTooltip';
 import { BOX_SHADOW, GREEN, GREY_EXTRA_LIGHT } from '../constants/style';
+import formatDate from '../utils/formatDate';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -60,7 +61,6 @@ class Graph extends Component {
   }
 
   formatChartData = () => {
-    console.log('formatChartData');
     const { stockData } = this.props;
 
     const chartData = Object.keys(stockData)
@@ -81,15 +81,7 @@ calculateMargin = num => ({
 });
 
 formatYTick = value => `$${value}`
-formatXTick = (value) => {
-  const split = value.split('-');
-
-  const day = split[2];
-  const month = split[1];
-  const year = split[0];
-
-  return `${month}/${day}/${year}`;
-}
+formatXTick = value => formatDate(value)
 
 renderEmpty = () => (
   <Empty>
@@ -142,7 +134,7 @@ render() {
         />
         <Tooltip content={<CustomTooltip />} />
       </LineChart>
-      </ResponsiveContainer>
+    </ResponsiveContainer>
     }
     </Wrapper>
   );

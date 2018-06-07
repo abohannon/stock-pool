@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { SmallButton } from '../components/common';
-import { IconSearch } from '../assets/icons';
+import { IconSearch } from './icons';
 import {
   BOX_SHADOW,
   WHITE,

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IconClose } from '../assets/icons';
+import { IconClose } from './icons';
 import { BLUE, GREEN, RED, GREY } from '../constants/style';
 
 const ItemWrapper = styled.tr`
