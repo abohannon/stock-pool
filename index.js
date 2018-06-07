@@ -5,7 +5,7 @@ const keys = require('./config/keys');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(keys.MONGODB_URI).then(
-  () => console.log('MongoDB Connected!!$%&@'),
+  () => console.log('MongoDB Connected!!$%&@!'),
   err => console.log('Error connecting to MongoDB', err),
 );
 
