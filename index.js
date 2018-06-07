@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const routes = require('./routes');
 const keys = require('./config/keys');
 
 mongoose.Promise = global.Promise;
@@ -12,7 +11,6 @@ mongoose.connect(keys.MONGODB_URI).then(
 
 const app = express();
 app.use(bodyParser.json());
-routes(app);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('../client/build'));
