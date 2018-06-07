@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import io from 'socket.io-client';
 import Header from './Header';
 import Graph from './Graph';
 import StockList from './StockList';
@@ -31,6 +32,10 @@ class App extends Component {
       fetchingStockData: false,
       error: '',
     };
+
+    componentDidMount() {
+      const socket = io.connect('/api/');
+    }
 
     componentDidUpdate(prevProps, prevState) {
       if (this.state.range !== prevState.range) {
