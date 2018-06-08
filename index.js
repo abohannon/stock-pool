@@ -32,7 +32,12 @@ io.on('connection', (client) => {
   console.log('Made socket connection', client.id);
 
   // Handle events
-  client.on('updateStocks', data => client.broadcast.emit('updateStocks', data));
+  client.on('updateStocks', (data) => {
+    client.broadcast.emit('updateStocks', data);
+  });
+  client.on('setRange', (data) => {
+    client.broadcast.emit('setRange', data);
+  });
   client.on('fetchStockData', data => client.broadcast.emit('fetchStockData', data));
   client.on('removeStock', data => client.broadcast.emit('removeStock', data));
 });

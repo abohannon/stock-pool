@@ -40,13 +40,11 @@ class App extends Component {
         this.socket = io.connect('http://localhost:5000');
       }
 
-      this.socket.on('updateStocks', (data) => {
-        this.updateCurrentStocksState(data);
-      });
+      this.socket.on('updateStocks', data => this.updateCurrentStocksState(data));
 
-      this.socket.on('fetchStockData', (data) => {
-        this.updateDataState(data);
-      });
+      this.socket.on('fetchStockData', data => this.updateDataState(data));
+
+      this.socket.on('setRange', data => this.setRangeState(data));
 
       this.socket.on('removeStock', ({ index, symbol }) => {
         this.removeStockAndUpdateState(index, symbol);
@@ -60,7 +58,8 @@ class App extends Component {
     }
 
     setRange = (range) => {
-      this.setState({ range });
+      this.socket.emit('setRange', range);
+      this.setRangeState(range);
     }
 
     // Methods for updating stock data state
@@ -82,6 +81,10 @@ class App extends Component {
         currentStocks: this.removeFromCurrentStocks(index),
         data: this.removeFromMainData(symbol),
       });
+    }
+
+    setRangeState = (range) => {
+      this.setState({ range });
     }
 
     // Check if stock is valid ticker before proceeding
