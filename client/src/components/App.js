@@ -34,7 +34,19 @@ class App extends Component {
     };
 
     componentDidMount() {
-      const socket = io.connect('/api/');
+      if (process.env.NODE_ENV === 'production') {
+        this.socket = io.connect('/');
+      } else {
+        this.socket = io.connect('http://localhost:5000');
+      }
+
+      this.socket.on('updateStocks', (data) => {
+        this.updateCurrentStocksState(data);
+      });
+
+      this.socket.on('fetchStockData', (data) => {
+        this.updateDataState(data);
+      });
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -45,6 +57,19 @@ class App extends Component {
 
   setRange = (range) => {
     this.setState({ range });
+  }
+
+  updateCurrentStocksState = (searchValue, callback) => {
+    const newState = [...this.state.currentStocks, searchValue];
+    this.setState({ currentStocks: newState }, callback);
+  }
+
+  updateDataState = (json) => {
+    this.setState({
+      data: json,
+      fetchingStockData: false,
+      error: '',
+    });
   }
 
   // Check if stock is valid ticker before proceeding
@@ -71,8 +96,11 @@ class App extends Component {
     }
 
     if (await this.queryStock(searchValue)) {
-      const newState = [...this.state.currentStocks, searchValue];
-      this.setState({ currentStocks: newState }, () => this.fetchStockData(data));
+      this.socket.emit('updateStocks', searchValue);
+      this.updateCurrentStocksState(searchValue, () => this.fetchStockData(data));
+      // TODO: Remove this code once comfortable with implementation
+      // const newState = [...this.state.currentStocks, searchValue];
+      // this.setState({ currentStocks: newState }, () => this.fetchStockData(data));
     }
   }
 
@@ -89,11 +117,9 @@ class App extends Component {
       const response = await fetch(endpoint);
       const json = await response.json();
 
-      this.setState({
-        data: json,
-        fetchingStockData: false,
-        error: '',
-      });
+      this.socket.emit('fetchStockData', json);
+
+      this.updateDataState(json);
     } catch (error) {
       console.log('Error fetching stock data', error);
       this.setState({
