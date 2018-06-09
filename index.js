@@ -4,7 +4,10 @@ const bodyParser = require('body-parser');
 const io = require('socket.io')();
 const keys = require('./config/keys');
 require('./models/Pool');
-const { updateCurrentStocks } = require('./controller/db-controller');
+const {
+  updateCurrentStocks,
+  updateRange,
+} = require('./controller/db-controller');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(keys.MONGODB_URI).then(
@@ -40,10 +43,13 @@ io.on('connection', (client) => {
   });
 
   client.on('setRange', (data) => {
+    updateRange(data);
     client.broadcast.emit('setRange', data);
   });
+
   client.on('fetchStockData', (data) => {
     client.broadcast.emit('fetchStockData', data);
   });
+
   client.on('removeStock', data => client.broadcast.emit('removeStock', data));
 });
