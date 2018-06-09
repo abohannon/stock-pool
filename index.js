@@ -33,6 +33,7 @@ io.on('connection', (client) => {
 
   // Handle events
   client.on('updateStocks', data => client.broadcast.emit('updateStocks', data));
+  client.on('setRange', data => client.broadcast.emit('setRange', data));
   client.on('fetchStockData', data => client.broadcast.emit('fetchStockData', data));
   client.on('removeStock', data => client.broadcast.emit('removeStock', data));
 });

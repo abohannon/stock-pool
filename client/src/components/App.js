@@ -44,6 +44,8 @@ class App extends Component {
         this.updateCurrentStocksState(data);
       });
 
+      this.socket.on('setRange', data => this.setRangeState(data));
+
       this.socket.on('fetchStockData', (data) => {
         this.updateDataState(data);
       });
@@ -60,10 +62,15 @@ class App extends Component {
     }
 
     setRange = (range) => {
-      this.setState({ range });
+      this.socket.emit('setRange', range);
+      this.setRangeState(range);
     }
 
     // Methods for updating stock data state
+    setRangeState = (range) => {
+      this.setState({ range });
+    }
+
     updateCurrentStocksState = (searchValue, callback) => {
       const newState = [...this.state.currentStocks, searchValue];
       this.setState({ currentStocks: newState }, callback);
