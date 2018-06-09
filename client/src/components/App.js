@@ -63,6 +63,10 @@ class App extends Component {
     }
 
     // Methods for updating stock data state
+    setRangeState = (range) => {
+      this.setState({ range });
+    }
+
     updateCurrentStocksState = (searchValue, callback) => {
       const newState = [...this.state.currentStocks, searchValue];
       this.setState({ currentStocks: newState }, callback);
@@ -81,10 +85,6 @@ class App extends Component {
         currentStocks: this.removeFromCurrentStocks(index),
         data: this.removeFromMainData(symbol),
       });
-    }
-
-    setRangeState = (range) => {
-      this.setState({ range });
     }
 
     // Check if stock is valid ticker before proceeding

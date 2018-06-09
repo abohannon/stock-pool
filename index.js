@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const io = require('socket.io')();
 const keys = require('./config/keys');
+require('./models/Pool');
+
+const Pool = mongoose.model('pool');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(keys.MONGODB_URI).then(
@@ -33,11 +36,31 @@ io.on('connection', (client) => {
 
   // Handle events
   client.on('updateStocks', (data) => {
+    Pool.findOne({ poolName: 'pool_1' }, (err, pool) => {
+      if (err) throw err;
+
+      if (!pool) {
+        Pool.create({
+          poolName: 'pool_1',
+          currentStocks: [data],
+        }, (createErr) => {
+          if (createErr) throw createErr;
+        });
+      } else {
+        Pool.updateOne(
+          { poolName: 'pool_1' },
+          { $push: { currentStocks: data } },
+        ).exec();
+      }
+    });
+
     client.broadcast.emit('updateStocks', data);
   });
   client.on('setRange', (data) => {
     client.broadcast.emit('setRange', data);
   });
-  client.on('fetchStockData', data => client.broadcast.emit('fetchStockData', data));
+  client.on('fetchStockData', (data) => {
+    client.broadcast.emit('fetchStockData', data);
+  });
   client.on('removeStock', data => client.broadcast.emit('removeStock', data));
 });
