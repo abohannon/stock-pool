@@ -41,14 +41,13 @@ class App extends Component {
       }
 
       this.socket.on('updateStocks', (data) => {
-        this.updateCurrentStocksState(data);
+        const { symbol, range } = data;
+
+        this.updateCurrentStocksState(symbol);
+        this.setRangeState(range);
       });
 
       this.socket.on('setRange', data => this.setRangeState(data));
-
-      this.socket.on('fetchStockData', (data) => {
-        this.updateDataState(data);
-      });
 
       this.socket.on('removeStock', ({ index, symbol }) => {
         this.removeStockAndUpdateState(index, symbol);
@@ -56,9 +55,21 @@ class App extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-      if (this.state.range !== prevState.range) {
+      console.log('prevState', prevState);
+      console.log('state', this.state);
+      if (this.state.range !== prevState.range && this.state.currentStocks.length > 0) {
         this.fetchStockData();
       }
+
+      if (this.state.currentStocks.length > 0 &&
+        this.state.currentStocks.length !== prevState.currentStocks.length) {
+        this.fetchStockData();
+      }
+      // ||
+      //   this.state.currentStocks.length > 0 &&
+      //   this.state.currentStocks.length !== prevState.currentStocks.length) {
+      //   this.fetchStockData();
+      // }
     }
 
     setRange = (range) => {
@@ -116,7 +127,12 @@ class App extends Component {
       }
 
       if (await this.queryStock(searchValue)) {
-        this.socket.emit('updateStocks', searchValue);
+        const socketPayload = {
+          symbol: searchValue,
+          range: this.state.range,
+        };
+
+        this.socket.emit('updateStocks', socketPayload);
         this.updateCurrentStocksState(searchValue, () => this.fetchStockData(data));
       }
     }
