@@ -2,21 +2,30 @@ const mongoose = require('mongoose');
 
 const Pool = mongoose.model('pool');
 
-const updateCurrentStocks = (data) => {
-  Pool.findOne({ poolName: 'pool_1' }, (err, pool) => {
+const updatePool = (data) => {
+  const { stocks, range } = data;
+
+  // TODO: Temp solution for demo
+  const poolName = 'pool_1';
+
+  Pool.findOne({ poolName }, (err, pool) => {
     if (err) throw err;
 
     if (!pool) {
       Pool.create({
-        poolName: 'pool_1',
-        currentStocks: [data],
+        poolName,
+        currentStocks: stocks,
+        range,
       }, (createErr) => {
         if (createErr) throw createErr;
       });
     } else {
       Pool.updateOne(
-        { poolName: 'pool_1' },
-        { $addToSet: { currentStocks: data } },
+        { poolName },
+        {
+          currentStocks: stocks,
+          range,
+        },
       ).exec();
     }
   });
@@ -37,24 +46,8 @@ const updateRange = (data) => {
   });
 };
 
-// TODO: Don't think I need this.
-// const updateStockData = (data) => {
-//   Pool.findOne({ poolName: 'pool_1' }, (err, pool) => {
-//     if (err) throw err;
-
-//     if (!pool) {
-//       console.log('No pool found');
-//     } else {
-//       Pool.updateOne(
-//         { poolName: 'pool_1' },
-//         { data },
-//       ).exec();
-//     }
-//   });
-// };
-
 module.exports = {
-  updateCurrentStocks,
+  updatePool,
   updateRange,
   // updateStockData,
 };

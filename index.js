@@ -4,10 +4,7 @@ const bodyParser = require('body-parser');
 const io = require('socket.io')();
 const keys = require('./config/keys');
 require('./models/Pool');
-const {
-  updateCurrentStocks,
-  updateRange,
-} = require('./controller/db-controller');
+const { updatePool } = require('./controller/db-controller');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(keys.MONGODB_URI).then(
@@ -32,24 +29,15 @@ const server = app.listen(PORT, () => { console.log(`Server listening on port ${
 
 io.listen(server);
 console.log('Socket connected.');
-console.log(updateCurrentStocks);
 io.on('connection', (client) => {
   console.log('Made socket connection', client.id);
 
   // Handle websocket events
-  client.on('updateStocks', (data) => {
-    updateCurrentStocks(data);
-    client.broadcast.emit('updateStocks', data);
+  client.on('updatePool', (data) => {
+    console.log(data);
+    updatePool(data);
+    client.broadcast.emit('updatePool', data);
   });
-
-  client.on('setRange', (data) => {
-    updateRange(data);
-    client.broadcast.emit('setRange', data);
-  });
-
-  client.on('fetchStockData', (data) => {
-    client.broadcast.emit('fetchStockData', data);
-  });
-
+  client.on('setRange', data => client.broadcast.emit('setRange', data));
   client.on('removeStock', data => client.broadcast.emit('removeStock', data));
 });
