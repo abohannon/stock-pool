@@ -41,13 +41,11 @@ class App extends Component {
       }
 
       this.socket.on('updateStocks', (data) => {
-        const { symbol, range } = data;
+        const { stocks, range } = data;
 
-        this.updateCurrentStocksState(symbol);
+        this.updateCurrentStocksState(stocks);
         this.setRangeState(range);
       });
-
-      this.socket.on('setRange', data => this.setRangeState(data));
 
       this.socket.on('removeStock', ({ index, symbol }) => {
         this.removeStockAndUpdateState(index, symbol);
@@ -55,25 +53,23 @@ class App extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-      console.log('prevState', prevState);
-      console.log('state', this.state);
+      // Call the API when the time range changes only if we've searched for a stock already
       if (this.state.range !== prevState.range && this.state.currentStocks.length > 0) {
         this.fetchStockData();
-      }
-
-      if (this.state.currentStocks.length > 0 &&
+      } else if (this.state.currentStocks.length > 0 &&
         this.state.currentStocks.length !== prevState.currentStocks.length) {
+        // If the array of current stocks isn't empty and the array size changes, call the API with the current stock symbols. Calling the API with an empty array will cause an error.
         this.fetchStockData();
       }
-      // ||
-      //   this.state.currentStocks.length > 0 &&
-      //   this.state.currentStocks.length !== prevState.currentStocks.length) {
-      //   this.fetchStockData();
-      // }
     }
 
     setRange = (range) => {
-      this.socket.emit('setRange', range);
+      const socketPayload = {
+        stocks: this.state.currentStocks,
+        range,
+      };
+
+      this.socket.emit('updateStocks', socketPayload);
       this.setRangeState(range);
     }
 
@@ -82,8 +78,15 @@ class App extends Component {
       this.setState({ range });
     }
 
-    updateCurrentStocksState = (searchValue, callback) => {
-      const newState = [...this.state.currentStocks, searchValue];
+    updateCurrentStocksState = (stocks, callback) => {
+      const newState = [...this.state.currentStocks];
+      // if currentStocks array doesn't have the stock, add it to the array
+      stocks.forEach((stock) => {
+        if (!newState.includes(stock)) {
+          newState.push(stock);
+        }
+      });
+
       this.setState({ currentStocks: newState }, callback);
     }
 
@@ -128,12 +131,12 @@ class App extends Component {
 
       if (await this.queryStock(searchValue)) {
         const socketPayload = {
-          symbol: searchValue,
+          stocks: [searchValue],
           range: this.state.range,
         };
 
         this.socket.emit('updateStocks', socketPayload);
-        this.updateCurrentStocksState(searchValue, () => this.fetchStockData(data));
+        this.updateCurrentStocksState([searchValue], () => this.fetchStockData(data));
       }
     }
 
@@ -150,8 +153,6 @@ class App extends Component {
       try {
         const response = await fetch(endpoint);
         const json = await response.json();
-
-        this.socket.emit('fetchStockData', json);
 
         this.updateDataState(json);
       } catch (error) {

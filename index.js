@@ -31,9 +31,8 @@ console.log('Socket connected.');
 io.on('connection', (client) => {
   console.log('Made socket connection', client.id);
 
-  // Handle events
+  // Handle websocket events
   client.on('updateStocks', data => client.broadcast.emit('updateStocks', data));
   client.on('setRange', data => client.broadcast.emit('setRange', data));
-  client.on('fetchStockData', data => client.broadcast.emit('fetchStockData', data));
   client.on('removeStock', data => client.broadcast.emit('removeStock', data));
 });
