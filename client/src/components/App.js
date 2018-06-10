@@ -39,7 +39,7 @@ class App extends Component {
         this.socket = io.connect('http://localhost:5000');
       }
 
-      this.socket.on('updateStocks', (data) => {
+      this.socket.on('updatePool', (data) => {
         const { stocks, range } = data;
 
         this.updateCurrentStocksState(stocks);
@@ -68,8 +68,7 @@ class App extends Component {
         range,
       };
 
-      this.socket.emit('updateStocks', socketPayload);
-      this.setRangeState(range);
+      this.socket.emit('updatePool', socketPayload);
     }
 
     // Methods for updating stock data state
@@ -125,7 +124,7 @@ class App extends Component {
           range: this.state.range,
         };
 
-        this.socket.emit('updateStocks', socketPayload);
+        this.socket.emit('updatePool', socketPayload);
       }
     }
 
@@ -162,7 +161,7 @@ class App extends Component {
         range: this.state.range,
       };
 
-      this.socket.emit('updateStocks', socketPayload);
+      this.socket.emit('updatePool', socketPayload);
     }
 
     render() {

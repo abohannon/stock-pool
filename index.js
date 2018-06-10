@@ -29,11 +29,11 @@ io.listen(server);
 console.log('Socket connected.');
 
 io.on('connection', (client) => {
-  console.log('Made socket connection', client.id);
+  console.log('Made socket connection with client: ', client.id);
 
   // Handle websocket events
-  client.on('updateStocks', (data) => {
+  client.on('updatePool', (data) => {
     console.log(data);
-    io.sockets.emit('updateStocks', data);
+    io.sockets.emit('updatePool', data);
   });
 });
