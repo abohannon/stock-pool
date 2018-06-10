@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const io = require('socket.io')();
 const keys = require('./config/keys');
 require('./models/Pool');
-const { updatePool } = require('./controller/db-controller');
+const { updatePool, fetchPool } = require('./controller/db-controller');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(keys.MONGODB_URI).then(
@@ -39,3 +39,6 @@ io.on('connection', (client) => {
     io.sockets.emit('updatePool', data);
   });
 });
+
+app.get('/api/fetchPool', fetchPool);
+

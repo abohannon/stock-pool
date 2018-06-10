@@ -30,6 +30,7 @@ class App extends Component {
       range: '1m',
       fetchingStockData: false,
       error: '',
+      poolName: 'pool_1',
     };
 
     componentDidMount() {
@@ -39,11 +40,10 @@ class App extends Component {
         this.socket = io.connect('http://localhost:5000');
       }
 
-      this.socket.on('updatePool', (data) => {
-        const { stocks, range } = data;
+      this.fetchDataFromDB(this.state.poolName);
 
-        this.updateCurrentStocksState(stocks);
-        this.setRangeState(range);
+      this.socket.on('updatePool', (data) => {
+        this.updateCurrentStocksState(data);
       });
     }
 
@@ -62,6 +62,28 @@ class App extends Component {
       }
     }
 
+    fetchDataFromDB = async (poolName) => {
+      this.setState({ fetchStockData: true });
+
+      try {
+        const response = await fetch(`/api/fetchPool?poolName=${poolName}`);
+        if (response.status !== 200) throw response.body.error;
+        const json = await response.json();
+
+        const { currentStocks, range } = json;
+
+        this.setState({
+          currentStocks,
+          range,
+        });
+      } catch (error) {
+        this.setState({
+          error,
+          fetchingStockData: false,
+        });
+      }
+    }
+
     setRange = (range) => {
       const socketPayload = {
         stocks: this.state.currentStocks,
@@ -72,18 +94,19 @@ class App extends Component {
     }
 
     // Methods for updating stock data state
-    setRangeState = (range) => {
-      this.setState({ range });
-    }
-
     clearData = () => {
       this.setState({
         data: {},
       });
     }
 
-    updateCurrentStocksState = (stocks, callback) => {
-      this.setState({ currentStocks: stocks }, callback);
+    updateCurrentStocksState = (data, callback) => {
+      const { stocks, range } = data;
+
+      this.setState({
+        currentStocks: stocks,
+        range,
+      }, callback);
     }
 
     updateDataState = (json) => {
