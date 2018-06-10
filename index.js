@@ -30,14 +30,12 @@ const server = app.listen(PORT, () => { console.log(`Server listening on port ${
 io.listen(server);
 console.log('Socket connected.');
 io.on('connection', (client) => {
-  console.log('Made socket connection', client.id);
+  console.log('Made socket connection with client: ', client.id);
 
   // Handle websocket events
   client.on('updatePool', (data) => {
     console.log(data);
     updatePool(data);
-    client.broadcast.emit('updatePool', data);
+    io.sockets.emit('updatePool', data);
   });
-  client.on('setRange', data => client.broadcast.emit('setRange', data));
-  client.on('removeStock', data => client.broadcast.emit('removeStock', data));
 });
