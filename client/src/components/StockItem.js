@@ -8,6 +8,10 @@ const ItemWrapper = styled.tr`
   height: 3rem;
   font-weight: 600;
   color: ${GREY};
+
+  @media (max-width: 768px) {
+    font-size: .8rem;
+  }
 `;
 
 const StyledTd = styled.td`
