@@ -42,10 +42,10 @@ const StockItem = (props) => {
       </Close>
       <StyledTd>{volume}</StyledTd>
       <StyledTd>{marketCap}</StyledTd>
-      <StyledTd>
+      <StyledTd style={{ textAlign: 'center' }}>
         <IconClose
-          width={15}
-          height={15}
+          width={12}
+          height={12}
           onClick={() => removeStock(index)}
         />
       </StyledTd>
