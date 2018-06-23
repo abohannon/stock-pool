@@ -63,7 +63,7 @@ class App extends Component {
     }
 
     fetchDataFromDB = async (poolName) => {
-      this.setState({ fetchStockData: true });
+      this.setState({ fetchingStockData: true });
 
       try {
         const response = await fetch(`/api/fetchPool?poolName=${poolName}`);
