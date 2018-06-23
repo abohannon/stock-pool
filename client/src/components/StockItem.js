@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { IconClose } from './icons';
 import { BLUE, GREEN, RED, GREY } from '../constants/style';
+import { formatNumber } from '../utils/helpers';
 
 const ItemWrapper = styled.tr`
   height: 3rem;
@@ -31,17 +32,17 @@ const StockItem = (props) => {
   return (
     <ItemWrapper>
       <Symbol>{symbol}</Symbol>
-      <StyledTd>${open}</StyledTd>
-      <StyledTd>${high}</StyledTd>
-      <StyledTd>${low}</StyledTd>
+      <StyledTd>${formatNumber(open)}</StyledTd>
+      <StyledTd>${formatNumber(high)}</StyledTd>
+      <StyledTd>${formatNumber(low)}</StyledTd>
       <Close
         open={open}
         close={close}
       >
-      ${close}
+      ${formatNumber(close)}
       </Close>
-      <StyledTd>{volume}</StyledTd>
-      <StyledTd>{marketCap}</StyledTd>
+      <StyledTd>{formatNumber(volume)}</StyledTd>
+      <StyledTd>${formatNumber(marketCap)}</StyledTd>
       <StyledTd style={{ textAlign: 'center' }}>
         <IconClose
           width={12}

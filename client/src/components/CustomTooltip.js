@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { IconCalendar } from './icons';
 import { BOX_SHADOW, GREY_LIGHT } from '../constants/style';
-import formatDate from '../utils/formatDate';
+import { formatDate, formatNumber } from '../utils/helpers';
 
 const Wrapper = styled.div`
   box-sizing: border-box;
@@ -29,7 +29,7 @@ const renderPayload = (props) => {
 
   const stocks = sortedPayload.map(item => (
     <div key={item.name}>
-      <p><b>{item.name}</b> - ${item.value}</p>
+      <p><b>{item.name}</b> - ${formatNumber(item.value)}</p>
     </div>
   ));
 

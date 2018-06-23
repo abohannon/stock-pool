@@ -11,7 +11,7 @@ import {
 } from 'recharts';
 import CustomTooltip from './CustomTooltip';
 import { BOX_SHADOW, GREEN, GREY_EXTRA_LIGHT } from '../constants/style';
-import formatDate from '../utils/formatDate';
+import { formatDate } from '../utils/helpers';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -81,7 +81,7 @@ calculateMargin = num => ({
 });
 
 formatYTick = value => `$${value}`
-formatXTick = value => formatDate(value)
+formatXTick = value => formatDate(value, true)
 
 renderEmpty = () => (
   <Empty>
@@ -114,7 +114,7 @@ render() {
   return (
     <Wrapper>
       { chartData.length < 1
-    ? this.renderEmpty()
+    ? this.renderEmpty() // if no stocks are present, render empty message
     : <ResponsiveContainer>
       <LineChart
         data={chartData}
