@@ -27,7 +27,7 @@ class App extends Component {
     state = {
       data: {},
       currentStocks: [],
-      range: '1m',
+      range: '',
       fetchingStockData: false,
       error: '',
       poolName: 'pool_1',
@@ -195,6 +195,7 @@ class App extends Component {
             <Header
               updateStocks={this.updateStocks}
               setRange={this.setRange}
+              currentRange={this.state.range}
               error={error}
             />
             <Graph stockData={data} />

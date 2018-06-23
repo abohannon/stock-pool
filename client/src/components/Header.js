@@ -51,7 +51,7 @@ class Header extends Component {
           handleInputSubmit={this.handleInputSubmit}
         />
         <Error error={this.props.error}>{this.props.error}</Error>
-        <RangeSelector setTimeRange={this.setTimeRange} />
+        <RangeSelector setTimeRange={this.setTimeRange} currentRange={this.props.currentRange} />
       </Wrapper>
     );
   }
