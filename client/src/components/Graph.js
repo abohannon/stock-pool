@@ -8,6 +8,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  CartesianGrid,
 } from 'recharts';
 import CustomTooltip from './CustomTooltip';
 import { BOX_SHADOW, GREEN, GREY_EXTRA_LIGHT } from '../constants/style';
@@ -116,6 +117,7 @@ renderLines = () => {
             dataKey={item}
             stroke={GREEN}
             dot={false}
+            strokeWidth={1.5}
           />
         );
       }
@@ -147,9 +149,10 @@ render() {
           domain={['auto', 'auto']}
           tickFormatter={this.formatYTick}
         />
+        <CartesianGrid strokeDasharray="3 3" />
         <Tooltip content={<CustomTooltip />} />
       </LineChart>
-    </ResponsiveContainer>
+      </ResponsiveContainer>
     }
     </Wrapper>
   );

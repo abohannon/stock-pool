@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { SmallButton } from '../components/common';
-import { BOX_SHADOW, GREY_LIGHT, BLUE } from '../constants/style';
+import { BOX_SHADOW, GREY_LIGHT, BLUE, WHITE } from '../constants/style';
 
 const Wrapper = styled.div`
   display: flex;
@@ -53,6 +53,7 @@ class RangeSelector extends Component {
       <StyledSmallButton
         key={range}
         active={this.state.active}
+        backgroundColor={WHITE}
         onClick={() => this.handleClick(range)}
       >
         {range}

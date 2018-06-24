@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   box-shadow: ${BOX_SHADOW};
   padding: .5rem 1rem;
   border-radius: 2px;
+  z-index: 50;
 `;
 
 const LabelWrapper = styled.div`
