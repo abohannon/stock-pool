@@ -6,6 +6,11 @@ import { BOX_SHADOW, GREY_LIGHT, BLUE } from '../constants/style';
 const Wrapper = styled.div`
   display: flex;
   margin-left: auto;
+
+  @media (max-width: 600px) {
+    order: 2;
+    margin-left: 0;
+  }
 `;
 
 const StyledSmallButton = styled(SmallButton)`

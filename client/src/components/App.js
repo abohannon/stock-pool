@@ -14,6 +14,10 @@ const Wrapper = styled.main`
   background-color: ${VANILLA_GREY};
   padding: 0 2rem;
   box-sizing: border-box;
+
+  @media (max-width: 600px) {
+    padding: 0 .5rem;
+  }
   `;
 
 const Container = styled.section`

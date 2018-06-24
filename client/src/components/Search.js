@@ -20,6 +20,12 @@ const Wrapper = styled.div`
   box-shadow: ${BOX_SHADOW};
   background-color: ${WHITE};
   overflow: hidden;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    margin-bottom: 1rem;
+    order: 1;
+  }
 `;
 
 const Input = styled.input`

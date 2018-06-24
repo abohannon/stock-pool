@@ -15,16 +15,27 @@ import { formatDate } from '../utils/helpers';
 
 const Wrapper = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
   background-color: white;
-  height: 500px;
   border-radius: 2px;
   box-shadow: ${BOX_SHADOW};
-  padding: 2rem 2rem 2rem 2rem;
+  padding: 2rem 2rem 2rem 1rem;
   box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    font-size: 11px;
+    padding: 2rem 2rem 2rem 0rem;
+    height: 350px;
+  }
+
+  @media (max-width: 415px) {
+    height: 250px;
+    padding: 1rem 1rem 1rem 0rem;
+  }
 `;
 
 const Empty = styled.div`
@@ -32,6 +43,10 @@ const Empty = styled.div`
   color: ${GREY_EXTRA_LIGHT};
   text-align: center;
   padding: 0 2rem;
+
+  @media (max-width: 415px) {
+    font-size: 2rem;
+  }
 `;
 
 class Graph extends Component {
@@ -115,7 +130,7 @@ render() {
     <Wrapper>
       { chartData.length < 1
     ? this.renderEmpty() // if no stocks are present, render empty message
-    : <ResponsiveContainer>
+    : <ResponsiveContainer margin={{ left: '-20px' }}>
       <LineChart
         data={chartData}
         margin={this.calculateMargin(8)}

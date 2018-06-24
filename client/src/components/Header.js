@@ -10,6 +10,11 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   align-items: flex-end;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const Error = styled.div`
@@ -19,6 +24,11 @@ font-size: .8rem;
 margin-left: 1rem;
 transition: all .2s;
 
+@media (max-width: 600px) {
+  order: 0;
+  margin-bottom: 1rem;
+  margin-left: 0;
+}
 `;
 
 class Header extends Component {
