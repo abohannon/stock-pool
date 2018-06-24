@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import Header from './Header';
 import Graph from './Graph';
 import StockList from './StockList';
+import NewsDisplay from './NewsDisplay';
 import { VANILLA_GREY } from '../constants/style';
 
 const Wrapper = styled.main`
@@ -12,8 +13,12 @@ const Wrapper = styled.main`
   width: 100vw;
   height: 100vh;
   background-color: ${VANILLA_GREY};
-  padding: 0 2rem;
+  padding-top: 0;
+  padding-right: 2rem;
+  padding-left: 2rem;
+  padding-bottom: 6rem;
   box-sizing: border-box;
+  overflow-x: hidden;
 
   @media (max-width: 600px) {
     padding: 0 .5rem;
@@ -23,7 +28,6 @@ const Wrapper = styled.main`
 const Container = styled.section`
     max-width: 1280px;
     width: 100%;
-    height: 400px;
     margin: 0 auto;
     margin-top: 5%;
   `;
@@ -207,6 +211,7 @@ class App extends Component {
               stockData={data}
               removeStock={this.removeStock}
             />
+            <NewsDisplay stockData={data} />
           </Container>
         </Wrapper>
       );

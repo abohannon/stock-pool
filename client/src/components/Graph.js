@@ -11,17 +11,17 @@ import {
   CartesianGrid,
 } from 'recharts';
 import CustomTooltip from './CustomTooltip';
-import { BOX_SHADOW, GREEN, GREY_EXTRA_LIGHT } from '../constants/style';
+import { BOX_SHADOW, GREEN, GREY_EXTRA_LIGHT, WHITE } from '../constants/style';
 import { formatDate } from '../utils/helpers';
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
-  background-color: white;
+  background-color: ${WHITE};
   border-radius: 2px;
   box-shadow: ${BOX_SHADOW};
   padding: 2rem 2rem 2rem 1rem;
@@ -152,7 +152,7 @@ render() {
         <CartesianGrid strokeDasharray="3 3" />
         <Tooltip content={<CustomTooltip />} />
       </LineChart>
-      </ResponsiveContainer>
+    </ResponsiveContainer>
     }
     </Wrapper>
   );
