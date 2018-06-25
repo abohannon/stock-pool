@@ -25,7 +25,7 @@ const InnerWrapper = styled.div`
 const FadeRight = styled.div`
   width: 30px;
   height: 100%;
-  background: linear-gradient(to left, ${WHITE}, ${WHITE} 30%, transparent);
+  background: linear-gradient(to left, ${WHITE}, ${WHITE} 70%, transparent);
   position: absolute;
   right: 0;
   z-index: 999;
@@ -34,7 +34,7 @@ const FadeRight = styled.div`
 const FadeLeft = styled.div`
   width: 30px;
   height: 100%;
-  background: linear-gradient(to right, ${WHITE}, ${WHITE} 30%, transparent);
+  background: linear-gradient(to right, ${WHITE}, ${WHITE} 70%, transparent);
   position: absolute;
   left: 0;
   z-index: 999;

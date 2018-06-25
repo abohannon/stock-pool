@@ -13,6 +13,10 @@ const Wrapper = styled.div`
   height: auto;
   min-height: 100px;
   width: 100%;
+
+  @media (max-width: 768px) {
+    font-size: .8rem;
+  }
 `;
 
 
@@ -30,7 +34,8 @@ class NewsDisplay extends Component {
   getNews = () => {
     const { stockData } = this.props;
 
-    const news = Object.keys(stockData).reduce((arr, item) => [...arr, ...stockData[item].news], []);
+    const news = Object.keys(stockData)
+      .reduce((arr, item) => [...arr, ...stockData[item].news], []);
 
     this.setState({ news });
   }
@@ -38,7 +43,7 @@ class NewsDisplay extends Component {
   renderNewsItems = () => {
     const { news } = this.state;
     return news.map(item => (
-      <NewsItem payload={item} />
+      <NewsItem key={item.headline} payload={item} />
     ));
   }
 

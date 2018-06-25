@@ -45,6 +45,10 @@ const ImageWrapper = styled.div`
   flex-shrink: 0;
   border-radius: 2px;
   overflow: hidden;
+
+  @media (max-width: 415px) {
+    display: none;
+  }
 `;
 
 const Image = styled.img`
@@ -53,6 +57,8 @@ const Image = styled.img`
   object-fit: cover;
   filter: saturate(70%);
 `;
+
+const parseNewsItemDate = date => date.match(/.+?(?=t)/i)[0];
 
 const NewsItem = (props) => {
   const {
@@ -66,11 +72,14 @@ const NewsItem = (props) => {
       </ImageWrapper>
       <div className="news-content">
         <div>
-          <StyledLink href={url} alt={headline}><Headline>{headline}</Headline></StyledLink>
+          <StyledLink href={url} alt={headline}>
+            {/* Need this to escape HTML entities in JSX */}
+            <Headline dangerouslySetInnerHTML={{ __html: headline }} />
+          </StyledLink>
         </div>
         <Metadata>
           <Source>{source}</Source>
-          <div>{datetime}</div>
+          <div>{parseNewsItemDate(datetime)}</div>
         </Metadata>
         <Summary>{summary}</Summary>
       </div>
