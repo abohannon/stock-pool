@@ -50,7 +50,8 @@ class Header extends Component {
     if (this.state.searchValue === '') return;
 
     this.props.updateStocks(this.state);
-  }
+    this.setState({ searchValue: '' });
+  };
 
   render() {
     return (

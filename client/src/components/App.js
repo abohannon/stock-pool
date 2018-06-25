@@ -5,7 +5,7 @@ import Header from './Header';
 import Graph from './Graph';
 import StockList from './StockList';
 import NewsDisplay from './NewsDisplay';
-import { VANILLA_GREY } from '../constants/style';
+import { VANILLA_GREY, GREY_LIGHT, RED, BLUE } from '../constants/style';
 
 const Wrapper = styled.main`
   display: flex;
@@ -31,6 +31,24 @@ const Container = styled.section`
     margin: 0 auto;
     margin-top: 5%;
   `;
+
+const Footer = styled.footer`
+  margin-top: 6rem;
+  font-size: .8rem;
+  color: ${GREY_LIGHT};
+  width: 100%;
+  text-align: center;
+  bottom: 0;
+`;
+
+const StyledLink = styled.a`
+  text-decoration: none;
+  color: ${GREY_LIGHT};
+
+  &:hover {
+   color: ${BLUE};
+  }
+`;
 class App extends Component {
     state = {
       data: {},
@@ -213,6 +231,7 @@ class App extends Component {
             />
             <NewsDisplay stockData={data} />
           </Container>
+          <Footer>made with <span style={{ color: RED }}>&hearts;</span> by <StyledLink href="https://github.com/abohannon">adam</StyledLink></Footer>
         </Wrapper>
       );
     }
