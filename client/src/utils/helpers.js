@@ -10,7 +10,6 @@ export const formatNumber = (number) => {
   }
 
   const arr = num.split('');
-
   const length = arr.indexOf('.') !== -1 ? arr.indexOf('.') - 1 : arr.length - 1;
 
   if (length < 3) return num;
@@ -28,7 +27,6 @@ export const formatNumber = (number) => {
 
   return arr.join('');
 };
-
 
 export const formatDate = (date, short) => {
   if (date) {

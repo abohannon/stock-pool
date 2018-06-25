@@ -5,7 +5,15 @@ import Header from './Header';
 import Graph from './Graph';
 import StockList from './StockList';
 import NewsDisplay from './NewsDisplay';
-import { VANILLA_GREY, GREY_LIGHT, RED, BLUE } from '../constants/style';
+import Notification from './Notification';
+import {
+  VANILLA_GREY,
+  GREY_LIGHT,
+  RED,
+  BLUE,
+  BLUE_LIGHT,
+  WHITE,
+} from '../constants/style';
 
 const Wrapper = styled.main`
   display: flex;
@@ -41,12 +49,20 @@ const Footer = styled.footer`
   bottom: 0;
 `;
 
-const StyledLink = styled.a`
+const FooterLink = styled.a`
   text-decoration: none;
   color: ${GREY_LIGHT};
 
   &:hover {
    color: ${BLUE};
+  }
+`;
+
+const NotificationLink = styled.a`
+  color: ${BLUE_LIGHT};
+
+  &:hover {
+    color: ${WHITE};
   }
 `;
 class App extends Component {
@@ -217,6 +233,9 @@ class App extends Component {
       const { data, error } = this.state;
       return (
         <Wrapper className="app">
+          <Notification>
+            This site lets you collaborate in real-time using websockets. <NotificationLink href={window.location.href} target="_blank">Click here</NotificationLink> to open a new tab and give it a go.
+          </Notification>
           <Container>
             <Header
               updateStocks={this.updateStocks}
@@ -231,7 +250,7 @@ class App extends Component {
             />
             <NewsDisplay stockData={data} />
           </Container>
-          <Footer>made with <span style={{ color: RED }}>&hearts;</span> by <StyledLink href="https://github.com/abohannon">adam</StyledLink></Footer>
+          <Footer>made with <span style={{ color: RED }}>&hearts;</span> by <FooterLink href="https://github.com/abohannon">adam</FooterLink></Footer>
         </Wrapper>
       );
     }
