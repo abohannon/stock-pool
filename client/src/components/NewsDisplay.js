@@ -42,8 +42,8 @@ class NewsDisplay extends Component {
 
   renderNewsItems = () => {
     const { news } = this.state;
-    return news.map(item => (
-      <NewsItem key={item.headline} payload={item} />
+    return news.map((item, index) => (
+      <NewsItem key={index} payload={item} />
     ));
   }
 
