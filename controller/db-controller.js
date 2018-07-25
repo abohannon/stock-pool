@@ -43,9 +43,16 @@ const fetchPool = (req, res) => {
         error: 'No pool found',
       });
     } else {
+      let { range } = pool;
+
+      if (!pool.range || pool.range === '') {
+        /* default range to 1m if no range is found */
+        range = '1m';
+      }
+
       const payload = {
         currentStocks: pool.currentStocks,
-        range: pool.range,
+        range,
       };
 
       res.status(200).send(payload);
