@@ -79,6 +79,7 @@ const renderStockItems = (props) => {
         marketCap,
       },
     } = stockData[stock];
+
     return (
       <StockItem
         key={symbol}

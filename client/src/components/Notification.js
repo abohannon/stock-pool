@@ -35,7 +35,6 @@ class Notification extends Component {
     if (!this.state.open) {
       return null;
     }
-
     return (
       <Wrapper>
         <div>

@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {
-  BLUE,
-  BLUE_DARK,
-} from '../../constants/style';
 
 const Wrapper = styled.button`
   background-color: ${props => props.backgroundColor};
