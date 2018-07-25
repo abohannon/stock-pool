@@ -20,18 +20,18 @@ const StyledSmallButton = styled(SmallButton)`
   font-size: 12px;
   color: ${GREY_LIGHT};
   padding-top: 4px;
-  border-bottom: 3px solid ${props => (props.children === props.active ? BLUE : 'transparent')};
+  border-bottom: 3px solid ${props => (props.children === props.selectedRange ? BLUE : 'transparent')};
   transition: all .2s;
 `;
 class RangeSelector extends Component {
   state = {
-    active: null,
+    selectedRange: null,
   };
 
   static getDerivedStateFromProps(props, state) {
-    if (!state.active) {
+    if (!state.selectedRange || state.selectedRange !== props.currentRange) {
       return {
-        active: props.currentRange,
+        selectedRange: props.currentRange,
       };
     }
 
@@ -40,7 +40,7 @@ class RangeSelector extends Component {
 
   handleClick = (range) => {
     this.setState({
-      active: range,
+      selectedRange: range,
     });
 
     this.props.setTimeRange(range);
@@ -52,7 +52,7 @@ class RangeSelector extends Component {
     return ranges.map(range => (
       <StyledSmallButton
         key={range}
-        active={this.state.active}
+        selectedRange={this.state.selectedRange}
         backgroundColor={WHITE}
         onClick={() => this.handleClick(range)}
       >
