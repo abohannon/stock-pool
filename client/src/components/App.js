@@ -19,7 +19,6 @@ const Wrapper = styled.main`
   display: flex;
   flex-direction: column;
   width: 100vw;
-  height: 100vh;
   background-color: ${VANILLA_GREY};
   padding-top: 0;
   padding-right: 2rem;
