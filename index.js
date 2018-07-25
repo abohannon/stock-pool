@@ -15,6 +15,8 @@ mongoose.connect(keys.MONGODB_URI).then(
 const app = express();
 app.use(bodyParser.json());
 
+app.get('/api/fetchPool', fetchPool);
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 
@@ -39,6 +41,3 @@ io.on('connection', (client) => {
     io.sockets.emit('updatePool', data);
   });
 });
-
-app.get('/api/fetchPool', fetchPool);
-

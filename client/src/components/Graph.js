@@ -121,6 +121,7 @@ renderLines = () => {
           />
         );
       }
+      return null;
     });
   }
   return null;
@@ -152,7 +153,7 @@ render() {
         <CartesianGrid strokeDasharray="3 3" />
         <Tooltip content={<CustomTooltip />} />
       </LineChart>
-    </ResponsiveContainer>
+      </ResponsiveContainer>
     }
     </Wrapper>
   );

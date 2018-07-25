@@ -231,6 +231,7 @@ class App extends Component {
 
     render() {
       const { data, error } = this.state;
+
       return (
         <Wrapper className="app">
           <Notification>
